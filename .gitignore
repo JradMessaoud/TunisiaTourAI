@@ -1,0 +1,44 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pdb
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# Streamlit
+.streamlit/
+
+# Environnements virtuels
+venv/
+.env/
+.venv/
+ENV/
+
+# Fichiers de logs
+*.log
+logs/
+
+# Fichiers de configuration secrets
+.env
+.env.*
+
+# Fichiers système
+.DS_Store
+Thumbs.db
+
+# Cache
+.cache/
+.cache
+*.pkl
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Autres
+*.sqlite3
+*.db 
