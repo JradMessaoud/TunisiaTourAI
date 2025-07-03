@@ -1,0 +1,17 @@
+2025-07-03 00:17:39 - TunisiaTourAI - INFO - IA Request: 
+        Créez un itinéraire de voyage détaillé pour la Tunisie avec les paramètres suivants :
+     ... | {"type": "ai_request", "question_length": 966, "response_length": 12281, "duration_seconds": 22.36, "success": true}
+2025-07-03 00:22:10 - TunisiaTourAI - INFO - IA Request: 
+        Créez un itinéraire de voyage détaillé pour la Tunisie avec les paramètres suivants :
+     ... | {"type": "ai_request", "question_length": 955, "response_length": 13273, "duration_seconds": 25.67, "success": true}
+2025-07-03 00:22:33 - TunisiaTourAI - INFO - IA Request: 
+        Créez un itinéraire de voyage détaillé pour la Tunisie avec les paramètres suivants :
+     ... | {"type": "ai_request", "question_length": 955, "response_length": 6296, "duration_seconds": 10.95, "success": true}
+2025-07-03 00:22:34 - TunisiaTourAI - INFO - IA Request: 
+        Créez un itinéraire de voyage détaillé pour la Tunisie avec les paramètres suivants :
+     ... | {"type": "ai_request", "question_length": 955, "response_length": 7289, "duration_seconds": 14.19, "success": true}
+2025-07-03 00:27:44 - TunisiaTourAI - INFO - IA Request: 
+        Créez un itinéraire de voyage détaillé pour la Tunisie avec les paramètres suivants :
+     ... | {"type": "ai_request", "question_length": 976, "response_length": 9661, "duration_seconds": 17.15, "success": true}
+2025-07-03 02:34:15 - TunisiaTourAI - INFO - IA Request: Donne-moi un avis de voyageur sur la destination tunisienne suivante : Sidi Bou Saïd. Fais-le en 3 p... | {"type": "ai_request", "question_length": 115, "response_length": 329, "duration_seconds": 1.62, "success": true}
+2025-07-03 02:34:39 - TunisiaTourAI - INFO - IA Request: Donne-moi un avis de voyageur sur la destination tunisienne suivante : Djerba. Fais-le en 3 phrases ... | {"type": "ai_request", "question_length": 108, "response_length": 437, "duration_seconds": 1.74, "success": true}

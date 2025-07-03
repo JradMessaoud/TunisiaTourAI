@@ -1,0 +1,291 @@
+/* TunisiaTourAI - Thème Tunisien */
+
+/* Variables de couleurs tunisiennes */
+:root {
+    --tunisia-red: #E70013;
+    --tunisia-red-dark: #B3000F;
+    --tunisia-white: #FFFFFF;
+    --tunisia-light: #F8F9FA;
+    --tunisia-gray: #6C757D;
+    --tunisia-dark: #1E1E1E;
+    --tunisia-gold: #FFD700;
+}
+
+/* Styles globaux */
+.main {
+    background: linear-gradient(135deg, var(--tunisia-light) 0%, #E8E9EA 100%);
+}
+
+/* Header personnalisé */
+.main-header {
+    background: linear-gradient(135deg, var(--tunisia-red) 0%, var(--tunisia-red-dark) 100%);
+    color: var(--tunisia-white);
+    padding: 2rem;
+    border-radius: 15px;
+    margin-bottom: 2rem;
+    text-align: center;
+    box-shadow: 0 8px 32px rgba(231, 0, 19, 0.3);
+}
+
+.main-header h1 {
+    color: var(--tunisia-white);
+    font-size: 3rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+.main-header p {
+    color: var(--tunisia-white);
+    font-size: 1.2rem;
+    opacity: 0.9;
+}
+
+/* Boutons personnalisés */
+.stButton > button {
+    background: linear-gradient(135deg, var(--tunisia-red) 0%, var(--tunisia-red-dark) 100%);
+    color: var(--tunisia-white);
+    border: none;
+    border-radius: 25px;
+    padding: 0.75rem 2rem;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(231, 0, 19, 0.3);
+}
+
+.stButton > button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(231, 0, 19, 0.4);
+    background: linear-gradient(135deg, var(--tunisia-red-dark) 0%, #8B0000 100%);
+}
+
+/* Cartes personnalisées */
+.tunisia-card {
+    background: var(--tunisia-white);
+    border-radius: 15px;
+    padding: 1.5rem;
+    margin: 1rem 0;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    border-left: 5px solid var(--tunisia-red);
+    transition: all 0.3s ease;
+}
+
+.tunisia-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(231, 0, 19, 0.2);
+}
+
+/* Sidebar personnalisée */
+.css-1d391kg {
+    background: linear-gradient(180deg, var(--tunisia-light) 0%, #E8E9EA 100%);
+}
+
+/* Titres personnalisés */
+h1, h2, h3 {
+    color: var(--tunisia-red) !important;
+    font-weight: bold !important;
+}
+
+h1 {
+    font-size: 2.5rem !important;
+    margin-bottom: 1rem !important;
+}
+
+h2 {
+    font-size: 2rem !important;
+    margin-bottom: 0.8rem !important;
+}
+
+h3 {
+    font-size: 1.5rem !important;
+    margin-bottom: 0.6rem !important;
+}
+
+/* Sélecteurs personnalisés */
+.stSelectbox > div > div {
+    border: 2px solid var(--tunisia-red) !important;
+    border-radius: 10px !important;
+}
+
+.stSelectbox > div > div:hover {
+    border-color: var(--tunisia-red-dark) !important;
+    box-shadow: 0 0 10px rgba(231, 0, 19, 0.2) !important;
+}
+
+/* Messages d'info personnalisés */
+.stAlert {
+    border-left: 5px solid var(--tunisia-red) !important;
+    background: linear-gradient(90deg, rgba(231, 0, 19, 0.1) 0%, rgba(231, 0, 19, 0.05) 100%) !important;
+    border-radius: 10px !important;
+}
+
+/* Images avec bordure tunisienne */
+.stImage > img {
+    border-radius: 15px !important;
+    border: 3px solid var(--tunisia-red) !important;
+    transition: all 0.3s ease;
+}
+
+.stImage > img:hover {
+    transform: scale(1.02);
+    box-shadow: 0 8px 25px rgba(231, 0, 19, 0.3);
+}
+
+/* Footer personnalisé */
+.tunisia-footer {
+    background: var(--tunisia-dark);
+    color: var(--tunisia-white);
+    text-align: center;
+    padding: 1.5rem;
+    margin-top: 3rem;
+    border-radius: 15px;
+    border-top: 5px solid var(--tunisia-red);
+}
+
+/* Animations */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-in-up {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .main-header h1 {
+        font-size: 2rem;
+    }
+    
+    .main-header p {
+        font-size: 1rem;
+    }
+    
+    .tunisia-card {
+        padding: 1rem;
+    }
+}
+
+/* Styles pour les pages spécifiques */
+
+/* Page Destinations */
+.destination-card {
+    background: var(--tunisia-white);
+    border-radius: 15px;
+    padding: 1.5rem;
+    margin: 1rem 0;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    border-left: 5px solid var(--tunisia-red);
+    transition: all 0.3s ease;
+}
+
+.destination-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(231, 0, 19, 0.2);
+}
+
+/* Page Monuments */
+.monument-card {
+    background: var(--tunisia-white);
+    border-radius: 15px;
+    padding: 1.5rem;
+    margin: 1rem 0;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    border-left: 5px solid var(--tunisia-red);
+    transition: all 0.3s ease;
+}
+
+.monument-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(231, 0, 19, 0.2);
+}
+
+/* Page Festivals */
+.festival-card {
+    background: var(--tunisia-white);
+    border-radius: 15px;
+    padding: 1.5rem;
+    margin: 1rem 0;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    border-left: 5px solid var(--tunisia-red);
+    transition: all 0.3s ease;
+}
+
+.festival-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(231, 0, 19, 0.2);
+}
+
+/* Page Planificateur */
+.planner-card {
+    background: linear-gradient(135deg, var(--tunisia-white) 0%, var(--tunisia-light) 100%);
+    border-radius: 15px;
+    padding: 2rem;
+    margin: 1rem 0;
+    box-shadow: 0 4px 15px rgba(231, 0, 19, 0.1);
+    border-left: 5px solid var(--tunisia-red);
+}
+
+.planner-header {
+    background: linear-gradient(135deg, var(--tunisia-red) 0%, var(--tunisia-red-dark) 100%);
+    color: var(--tunisia-white);
+    padding: 1.5rem;
+    border-radius: 10px;
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+/* Chat IA */
+.chat-container {
+    background: var(--tunisia-white);
+    border-radius: 15px;
+    padding: 1.5rem;
+    margin: 1rem 0;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    border-left: 5px solid var(--tunisia-red);
+}
+
+.chat-input {
+    border: 2px solid var(--tunisia-red) !important;
+    border-radius: 25px !important;
+    padding: 0.75rem 1.5rem !important;
+}
+
+.chat-input:focus {
+    border-color: var(--tunisia-red-dark) !important;
+    box-shadow: 0 0 10px rgba(231, 0, 19, 0.2) !important;
+}
+
+/* Loading spinner personnalisé */
+.stSpinner > div {
+    border-color: var(--tunisia-red) !important;
+    border-top-color: transparent !important;
+}
+
+/* Success messages */
+.stSuccess {
+    background: linear-gradient(90deg, rgba(40, 167, 69, 0.1) 0%, rgba(40, 167, 69, 0.05) 100%) !important;
+    border-left: 5px solid #28A745 !important;
+    border-radius: 10px !important;
+}
+
+/* Warning messages */
+.stWarning {
+    background: linear-gradient(90deg, rgba(255, 193, 7, 0.1) 0%, rgba(255, 193, 7, 0.05) 100%) !important;
+    border-left: 5px solid #FFC107 !important;
+    border-radius: 10px !important;
+}
+
+/* Error messages */
+.stError {
+    background: linear-gradient(90deg, rgba(220, 53, 69, 0.1) 0%, rgba(220, 53, 69, 0.05) 100%) !important;
+    border-left: 5px solid #DC3545 !important;
+    border-radius: 10px !important;
+} 
