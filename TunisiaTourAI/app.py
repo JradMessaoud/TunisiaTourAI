@@ -295,38 +295,4 @@ st.markdown(f"""
     🇹🇳 TunisiaTourAI &copy; 2024 — Développé avec ❤️ par <strong>Jrad Messaoud</strong><br>
     <span style="font-size:0.95em; opacity:0.7;">{TEXTS['footer'][lang]}</span>
 </div>
-""", unsafe_allow_html=True)
-
-# Section IA (dans la page ChatAvecIA)
-if st.button("🧠 Demander à l'IA", key="ask_ai"):
-    if user_question.strip():
-        ai = AIAgent()
-        with st.spinner("L'IA tunisienne réfléchit..."):
-            # Contexte spécifique à la Tunisie et à la langue
-            if lang == "fr":
-                tunisian_context = """
-                Vous êtes un expert de la Tunisie, spécialisé dans le tourisme, la culture, l'histoire et les traditions tunisiennes.
-                Répondez UNIQUEMENT aux questions concernant la Tunisie : destinations, monuments, festivals, culture, gastronomie, 
-                histoire, traditions, conseils de voyage, etc.
-                Si la question ne concerne pas la Tunisie, poliment redirigez vers des sujets tunisiens.
-                Répondez en français de manière détaillée et engageante.
-                """
-            elif lang == "en":
-                tunisian_context = """
-                You are a Tunisia expert, specialized in tourism, culture, history, and Tunisian traditions.
-                ONLY answer questions related to Tunisia: destinations, monuments, festivals, culture, gastronomy, history, traditions, travel tips, etc.
-                If the question is not about Tunisia, politely redirect to Tunisian topics.
-                Answer in English in a detailed and engaging way.
-                """
-            elif lang == "ar":
-                tunisian_context = """
-                أنت خبير في تونس، متخصص في السياحة والثقافة والتاريخ والتقاليد التونسية.
-                أجب فقط عن الأسئلة المتعلقة بتونس: الوجهات، المعالم، المهرجانات، الثقافة، المأكولات، التاريخ، التقاليد، نصائح السفر، إلخ.
-                إذا كان السؤال لا يتعلق بتونس، وجّه السائل بلطف نحو مواضيع تونسية.
-                أجب باللغة العربية بشكل مفصل وجذاب.
-                """
-            response = ai.ask(f"{tunisian_context}\n\nQuestion: {user_question}")
-            st.success("🤖 Réponse de l'IA :")
-            st.markdown(response)
-    else:
-        st.warning("Veuillez poser une question sur la Tunisie.") 
+""", unsafe_allow_html=True) 
