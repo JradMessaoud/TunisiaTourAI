@@ -91,17 +91,17 @@ st.markdown("""
         background: #18191A !important;
     }
     @media (max-width: 600px) {
-        .planner-container, .section-title, .glass-card, .process-card, .advantage-card, .footer-modern, .itinerary-card {
+        .planner-container, .section-title, .itinerary-card, .day-card, .footer {
             padding: 1rem !important;
             font-size: 1rem !important;
         }
         .planner-container h1 {
             font-size: 1.5rem !important;
         }
-        .glass-card h3, .section-title {
+        .section-title {
             font-size: 1.1rem !important;
         }
-        .footer-modern {
+        .footer {
             font-size: 0.9rem !important;
         }
         .stButton>button {
@@ -209,10 +209,10 @@ if st.session_state.itinerary_generated:
         Créez un itinéraire de voyage détaillé pour la Tunisie avec les paramètres suivants :
         
         📅 Durée : {duration} jours
-        🌍 Région : {region} ({{region_info['description']}})
-        🎯 Type : {travel_type} ({{travel_info['description']}})
-        🌤️ Saison : {season} ({{season_info['description']}})
-        💰 Budget : {budget_level} ({{budget_info['daily_budget']}}€/jour)
+        🌍 Région : {region} ({region_info['description']})
+        🎯 Type : {travel_type} ({travel_info['description']})
+        🌤️ Saison : {season} ({season_info['description']})
+        💰 Budget : {budget_level} ({budget_info['daily_budget']}€/jour)
         🎨 Intérêts : {', '.join(interests)}
         👥 Voyageurs : {travelers_count} personnes
         🚗 Voiture : {'Oui' if has_car else 'Non'}
@@ -240,23 +240,23 @@ if st.session_state.itinerary_generated:
         col1, col2, col3, col4 = st.columns(4)
         
         with col1:
-            st.metric("📅 Durée", f"{{duration}} jours")
+            st.metric("📅 Durée", f"{duration} jours")
         
         with col2:
             st.metric("🌍 Région", region)
         
         with col3:
-            st.metric("💰 Budget/jour", f"{{budget_info['daily_budget']}}€")
+            st.metric("💰 Budget/jour", f"{budget_info['daily_budget']}€")
         
         with col4:
             total_budget = budget_info['daily_budget'] * duration
-            st.metric("💰 Budget total", f"{{total_budget}}€")
+            st.metric("💰 Budget total", f"{total_budget}€")
         
         # Affichage de l'itinéraire
         st.markdown("### 📋 Planning Détaillé")
         st.markdown(f"""
         <div class="itinerary-card">
-            {{itinerary.replace(chr(10), '<br>')}}
+            {itinerary.replace(chr(10), '<br>')}
         </div>
         """, unsafe_allow_html=True)
         
@@ -277,21 +277,28 @@ if st.session_state.itinerary_generated:
         
         with col1:
             st.markdown("""
-            **🌤️ Météo en {{season_info['name']}} :**
-            - {{season_info['description']}}
+            **🌤️ Météo en {} :**
+            - {}
             
             **🎉 Festivals de la saison :**
-            - {{', '.join(season_info['festivals'])}}
-            """)
+            - {}
+            """.format(
+                season_info['name'],
+                season_info['description'],
+                ', '.join(season_info['festivals'])
+            ))
         
         with col2:
             st.markdown("""
             **🏨 Hébergement recommandé :**
-            - {{budget_info['accommodation']}}
+            - {}
             
             **🚗 Transport :**
-            - {{budget_info['transport']}}
-            """)
+            - {}
+            """.format(
+                budget_info['accommodation'],
+                budget_info['transport']
+            ))
         
         # Boutons d'action
         st.markdown("---")
@@ -373,7 +380,7 @@ st.markdown("""
 
 st.session_state["lang"] = "fr"
 lang = "fr"
-TEXTS = st.session_state.get('TEXTS', {})
+TEXTS = st.session_state.get('TEXTS', {}) 
 
 # Après chaque génération de texte dynamique (ex: suggestions IA, itinéraire, etc.)
 if lang != 'fr':

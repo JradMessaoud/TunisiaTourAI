@@ -62,17 +62,17 @@ st.markdown("""
         margin: 1rem 0;
     }
     @media (max-width: 600px) {
-        .favorites-container, .section-title, .glass-card, .process-card, .advantage-card, .footer-modern {
+        .favorites-container, .section-title, .favorite-card, .stats-card, .footer, .empty-state {
             padding: 1rem !important;
             font-size: 1rem !important;
         }
         .favorites-container h1 {
             font-size: 1.5rem !important;
         }
-        .glass-card h3, .section-title {
+        .section-title {
             font-size: 1.1rem !important;
         }
-        .footer-modern {
+        .footer {
             font-size: 0.9rem !important;
         }
         .stButton>button {
@@ -105,7 +105,7 @@ st.markdown("""
 <div class="footer">
     <p>❤️ Favoris créés avec ❤️ pour la Tunisie par <strong>Jrad Messaoud</strong></p>
 </div>
-""", unsafe_allow_html=True)
+""", unsafe_allow_html=True) 
 
 # Après chaque génération de texte dynamique (ex: description IA, résumé IA, etc.)
 st.session_state["lang"] = "fr"
