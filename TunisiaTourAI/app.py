@@ -178,6 +178,31 @@ body, .stApp {
     font-size: 1.1rem;
     opacity: 0.95;
 }
+
+@media (max-width: 600px) {
+    .main-header-modern, .section-title, .glass-card, .process-card, .advantage-card, .footer-modern, .favorites-container, .planner-container, .itinerary-card {
+        padding: 1rem !important;
+        font-size: 1rem !important;
+    }
+    .main-header-modern h1, .favorites-container h1, .planner-container h1 {
+        font-size: 1.5rem !important;
+    }
+    .glass-card h3, .section-title {
+        font-size: 1.1rem !important;
+    }
+    .footer-modern {
+        font-size: 0.9rem !important;
+    }
+    .stButton>button, .cta-btn {
+        width: 100% !important;
+        font-size: 1.1rem !important;
+        padding: 1rem !important;
+    }
+    img, .stImage>img {
+        max-width: 100% !important;
+        height: auto !important;
+    }
+}
 </style>
 """, unsafe_allow_html=True)
 
