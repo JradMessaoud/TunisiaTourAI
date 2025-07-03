@@ -160,13 +160,13 @@ else:
                     st.error(TEXTS.get('img_not_found', {}).get(lang, f"Image non trouvée: {dest['image']}"))
             with cols[1]:
                 st.subheader(dest["nom"])
-                st.markdown(f"**{{TEXTS.get('region_label', {{}}).get(lang, 'Région')}} :** {dest['region']}  ")
-                st.markdown(f"**{{TEXTS.get('type_label', {{}}).get(lang, 'Type')}} :** {dest['type']}  ")
+                st.markdown(f"**{TEXTS.get('region_label', {}).get(lang, 'Région')} :** {dest['region']}  ")
+                st.markdown(f"**{TEXTS.get('type_label', {}).get(lang, 'Type')} :** {dest['type']}  ")
                 st.write(dest["description"])
                 col1, col2 = st.columns(2)
                 with col1:
-                    if st.button(f"🧠 {{TEXTS.get('ai_opinion', {{}}).get(lang, 'Avis IA sur')}} {dest['nom']}", key=f"ai_{dest['nom']}"):
-                        with st.spinner(TEXTS.get('ai_opinion_loading', {{}}).get(lang, 'Génération de l\'avis IA...')):
+                    if st.button(f"🧠 {TEXTS.get('ai_opinion', {}).get(lang, 'Avis IA sur')} {dest['nom']}", key=f"ai_{dest['nom']}"):
+                        with st.spinner(TEXTS.get('ai_opinion_loading', {}).get(lang, 'Génération de l\'avis IA...')):
                             avis = ai.ask(f"Donne-moi un avis de voyageur sur la destination tunisienne suivante : {dest['nom']}. Fais-le en 3 phrases maximum.")
                             st.success(avis)
                 with col2:
@@ -180,8 +180,8 @@ else:
                     add_to_favorites_button("destinations", item, f"fav_{dest['nom']}")
             st.markdown("---")
 
-st.info(TEXTS.get('dest_dynamic', {{}}).get(lang, 'Affichage dynamique des destinations à venir…'))
+st.info(TEXTS.get('dest_dynamic', {}).get(lang, 'Affichage dynamique des destinations à venir…'))
 
-if st.button(TEXTS.get('ai_summary', {{}}).get(lang, 'Générer un résumé IA sur les destinations')):
+if st.button(TEXTS.get('ai_summary', {}).get(lang, 'Générer un résumé IA sur les destinations')):
     ai = AIAgent()
     st.write(ai.ask("Donne-moi un résumé des meilleures destinations touristiques en Tunisie.")) 
