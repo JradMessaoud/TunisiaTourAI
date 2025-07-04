@@ -246,7 +246,7 @@ st.sidebar.markdown("**⏰ Fuseau :** UTC+1")
 st.sidebar.markdown("---")
 st.sidebar.markdown("### 🔧 Debug API Key")
 st.sidebar.success("✅ Google API key configurée")
-st.sidebar.info("🔑 Clé API : AIzaSyCNZcv6aBYanGlVNZtrDJGEV5lkexs0W10")
+st.sidebar.info("🔑 Clé API : AIzaSyCmuctt7CJv40n4cXayuJGtOtr16E8A0nI")
 
 # Page principale
 st.markdown(f"## {TEXTS['welcome'][lang]}")
