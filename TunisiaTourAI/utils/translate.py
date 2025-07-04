@@ -1,5 +1,5 @@
 from deep_translator import GoogleTranslator
-
+ 
 def translate_text(text, dest_lang):
     # deep-translator utilise 'english' et 'french' comme noms de langue
     lang_map = {'fr': 'french', 'en': 'english'}

@@ -1,18 +1,15 @@
 import os
 import time
+import streamlit as st
 import google.generativeai as genai
-from dotenv import load_dotenv
 from utils.cache_manager import cached_response, cache_manager
 from utils.logger import get_logger
-
-load_dotenv()
 
 class AIAgent:
     def __init__(self):
         """Initialise l'agent IA avec le contexte tunisien"""
-        api_key = os.getenv('GEMINI_API_KEY')
-        if not api_key:
-            raise ValueError("Clé API Gemini manquante dans le fichier .env")
+        # Clé API directe pour simplifier
+        api_key = "AIzaSyBcJ0mehE2ciJIERf0VsGDZS0Fg3gBATQc"
         
         genai.configure(api_key=api_key)
         self.model = genai.GenerativeModel('models/gemini-2.0-flash-exp')
