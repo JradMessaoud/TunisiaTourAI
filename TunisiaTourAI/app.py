@@ -242,6 +242,20 @@ st.sidebar.markdown("**🌍 Langue :** Français")
 st.sidebar.markdown("**💰 Devise :** Dinar tunisien")
 st.sidebar.markdown("**⏰ Fuseau :** UTC+1")
 
+# Debug des secrets (à retirer après vérification)
+st.sidebar.markdown("---")
+st.sidebar.markdown("### 🔧 Debug Secrets")
+st.sidebar.write("**Secrets disponibles :**", list(st.secrets.keys()))
+if 'GOOGLE_API_KEY' in st.secrets:
+    st.sidebar.success("✅ Google API key trouvée")
+    # Vérification de la clé spécifique
+    if st.secrets["GOOGLE_API_KEY"] == "AIzaSyBcJ0mehE2ciJIERf0VsGDZS0Fg3gBATQc":
+        st.sidebar.success("✅ Clé Google correcte")
+    else:
+        st.sidebar.warning("⚠️ Clé Google différente")
+else:
+    st.sidebar.error("❌ Google API key manquante")
+
 # Page principale
 st.markdown(f"## {TEXTS['welcome'][lang]}")
 
