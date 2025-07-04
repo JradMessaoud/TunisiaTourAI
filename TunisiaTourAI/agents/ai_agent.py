@@ -9,7 +9,7 @@ class AIAgent:
     def __init__(self):
         """Initialise l'agent IA avec le contexte tunisien"""
         # Clé API directe pour simplifier
-        api_key = "AIzaSyDZD16XldW_VEIs-qNWmBf83GxZvWhET4k"
+        api_key = "AIzaSyCNZcv6aBYanGlVNZtrDJGEV5lkexs0W10"
         
         genai.configure(api_key=api_key)
         self.model = genai.GenerativeModel('models/gemini-2.0-flash-exp')
