@@ -9,7 +9,7 @@ from utils.i18n import TEXTS
 load_dotenv()
 
 # --- GESTION MONOLINGUE FRANÇAIS ---
-st.session_state["lang"] = "fr"
+    st.session_state["lang"] = "fr"
 lang = "fr"
 
 # Configuration de la page
@@ -246,7 +246,7 @@ st.sidebar.markdown("**⏰ Fuseau :** UTC+1")
 st.sidebar.markdown("---")
 st.sidebar.markdown("### 🔧 Debug API Key")
 st.sidebar.success("✅ Google API key configurée")
-st.sidebar.info("🔑 Clé API : AIzaSyBcJ0mehE2ciJIERf0VsGDZS0Fg3gBATQc")
+st.sidebar.info("🔑 Clé API : AIzaSyDZD16XldW_VEIs-qNWmBf83GxZvWhET4k")
 
 # Page principale
 st.markdown(f"## {TEXTS['welcome'][lang]}")
@@ -326,4 +326,4 @@ st.markdown(f"""
     🇹🇳 TunisiaTourAI &copy; 2024 — Développé avec ❤️ par <strong>Jrad Messaoud</strong><br>
     <span style="font-size:0.95em; opacity:0.7;">{TEXTS['footer'][lang]}</span>
 </div>
-""", unsafe_allow_html=True) 
+""", unsafe_allow_html=True)
