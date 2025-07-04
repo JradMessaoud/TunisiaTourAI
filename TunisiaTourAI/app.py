@@ -9,7 +9,7 @@ from utils.i18n import TEXTS
 load_dotenv()
 
 # --- GESTION MONOLINGUE FRANÇAIS ---
-    st.session_state["lang"] = "fr"
+st.session_state["lang"] = "fr"
 lang = "fr"
 
 # Configuration de la page
