@@ -42,3 +42,5 @@ Thumbs.db
 # Autres
 *.sqlite3
 *.db 
+# .gitignore
+.env
