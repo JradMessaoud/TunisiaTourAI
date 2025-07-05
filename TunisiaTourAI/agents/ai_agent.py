@@ -8,7 +8,7 @@ from utils.logger import get_logger
 class AIAgent:
     def __init__(self):
         """Initialise l'agent IA avec le contexte tunisien"""
-        # Clé API directe pour simplifier
+        # Clé API Gemini mise à jour
         api_key = "AIzaSyApXu4t-gjwv_I8_ZZLbPc_1NHfYbmJbkw"
         
         genai.configure(api_key=api_key)
