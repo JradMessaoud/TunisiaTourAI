@@ -8,17 +8,13 @@ from utils.logger import get_logger
 class AIAgent:
     def __init__(self):
         """Initialise l'agent IA avec le contexte tunisien"""
-        # Champ pour saisir la clé API Gemini dans la sidebar
-        api_key = st.sidebar.text_input(
-            "🔑 Clé API Gemini",
-            type="password",
-            value=st.session_state.get("GEMINI_API_KEY", "")
-        )
-        st.session_state["GEMINI_API_KEY"] = api_key
+        # Clé API Gemini simple
+        api_key = "AIzaSyCpSrL4p1kGyA2Ub0tpc6iVmiz_Nvk_ftM"
         
-        if not api_key:
-            st.sidebar.warning("Veuillez entrer votre clé API Gemini pour utiliser l'IA.")
-            return
+        # Afficher la clé API dans la sidebar
+        st.sidebar.info(f"🔑 Clé API : {api_key[:20]}...")
+        
+        genai.configure(api_key=api_key)
         
         genai.configure(api_key=api_key)
         self.model = genai.GenerativeModel('gemini-1.5-flash')
