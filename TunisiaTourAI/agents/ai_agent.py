@@ -12,7 +12,7 @@ class AIAgent:
         api_key = "AIzaSyCpSrL4p1kGyA2Ub0tpc6iVmiz_Nvk_ftM"
         
         genai.configure(api_key=api_key)
-        self.model = genai.GenerativeModel('models/gemini-2.0-flash-exp')
+        self.model = genai.GenerativeModel('gemini-1.5-flash')
         
         # Contexte spécifique à la Tunisie
         self.tunisian_context = """
