@@ -12,7 +12,7 @@ class AIAgent:
         api_key = "AIzaSyCpSrL4p1kGyA2Ub0tpc6iVmiz_Nvk_ftM"
         
         # Afficher la clé API dans la sidebar
-        st.sidebar.info(f"🔑 Clé API : {api_key[:20]}...")
+        st.sidebar.info(f"🔑 Clé API : nope")
         
         genai.configure(api_key=api_key)
         
