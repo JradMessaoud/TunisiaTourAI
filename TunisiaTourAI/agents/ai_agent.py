@@ -8,13 +8,18 @@ from utils.logger import get_logger
 class AIAgent:
     def __init__(self):
         """Initialise l'agent IA avec le contexte tunisien"""
-        # Récupérer la clé API depuis les secrets Streamlit ou l'environnement
-        api_key = st.secrets.get("GEMINI_API_KEY") or os.getenv('GEMINI_API_KEY')
+        # Champ pour saisir la clé API Gemini dans la sidebar
+        api_key = st.sidebar.text_input(
+            "🔑 Clé API Gemini",
+            type="password",
+            value=st.session_state.get("GEMINI_API_KEY", "")
+        )
+        st.session_state["GEMINI_API_KEY"] = api_key
         
         if not api_key:
-            st.error("⚠️ Clé API Gemini manquante. Veuillez configurer GEMINI_API_KEY dans les secrets Streamlit.")
+            st.sidebar.warning("Veuillez entrer votre clé API Gemini pour utiliser l'IA.")
             return
-            
+        
         genai.configure(api_key=api_key)
         self.model = genai.GenerativeModel('gemini-1.5-flash')
         
