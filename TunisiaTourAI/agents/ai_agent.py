@@ -8,11 +8,16 @@ from utils.logger import get_logger
 class AIAgent:
     def __init__(self):
         """Initialise l'agent IA avec le contexte tunisien"""
-        # Clé API Gemini mise à jour
+        # Clé API Gemini simple
         api_key = "AIzaSyCpSrL4p1kGyA2Ub0tpc6iVmiz_Nvk_ftM"
         
+        # Afficher la clé API dans la sidebar
+        st.sidebar.info(f"🔑 Clé API : nope")
+        
         genai.configure(api_key=api_key)
-        self.model = genai.GenerativeModel('gemini-1.5-flash')
+        
+        genai.configure(api_key=api_key)
+        self.model = genai.GenerativeModel('gemini-2.5-pro')
         
         # Contexte spécifique à la Tunisie
         self.tunisian_context = """
