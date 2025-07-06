@@ -3,6 +3,10 @@ import os
 from agents.ai_agent import AIAgent
 from utils.favorites_manager import add_to_favorites_button
 from utils.translate import translate_text
+from utils.mobile_utils import get_responsive_columns, responsive_image_display, optimize_for_mobile
+
+# Optimisations mobile
+optimize_for_mobile()
 
 st.session_state["lang"] = "fr"
 lang = "fr"
@@ -149,20 +153,28 @@ if not filtered:
     st.warning(TEXTS.get('no_dest', {}).get(lang, 'Aucune destination trouvée pour ces critères.'))
 else:
     ai = AIAgent()
+    
+    # Layout responsive pour les destinations
+    cols_per_row = get_responsive_columns()
+    
     for dest in filtered:
         with st.container():
-            cols = st.columns([1,2])
-            with cols[0]:
+            # Sur mobile, afficher en colonne unique
+            if cols_per_row == 1:
+                # Image en haut
                 image_path = os.path.join("images", dest["image"])
                 if os.path.exists(image_path):
-                    st.image(image_path, use_container_width=True)
+                    responsive_image_display(image_path, dest["nom"])
                 else:
                     st.error(TEXTS.get('img_not_found', {}).get(lang, f"Image non trouvée: {dest['image']}"))
-            with cols[1]:
+                
+                # Contenu en dessous
                 st.subheader(dest["nom"])
-                st.markdown(f"**{TEXTS.get('region_label', {}).get(lang, 'Région')} :** {dest['region']}  ")
-                st.markdown(f"**{TEXTS.get('type_label', {}).get(lang, 'Type')} :** {dest['type']}  ")
+                st.markdown(f"**{TEXTS.get('region_label', {}).get(lang, 'Région')} :** {dest['region']}")
+                st.markdown(f"**{TEXTS.get('type_label', {}).get(lang, 'Type')} :** {dest['type']}")
                 st.write(dest["description"])
+                
+                # Boutons en colonnes sur mobile
                 col1, col2 = st.columns(2)
                 with col1:
                     if st.button(f"🧠 {TEXTS.get('ai_opinion', {}).get(lang, 'Avis IA sur')} {dest['nom']}", key=f"ai_{dest['nom']}"):
@@ -178,6 +190,39 @@ else:
                         "type": dest["type"]
                     }
                     add_to_favorites_button("destinations", item, f"fav_{dest['nom']}")
+            
+            else:
+                # Layout desktop : image à gauche, contenu à droite
+                cols = st.columns([1, 2])
+                with cols[0]:
+                    image_path = os.path.join("images", dest["image"])
+                    if os.path.exists(image_path):
+                        responsive_image_display(image_path, dest["nom"])
+                    else:
+                        st.error(TEXTS.get('img_not_found', {}).get(lang, f"Image non trouvée: {dest['image']}"))
+                with cols[1]:
+                    st.subheader(dest["nom"])
+                    st.markdown(f"**{TEXTS.get('region_label', {}).get(lang, 'Région')} :** {dest['region']}")
+                    st.markdown(f"**{TEXTS.get('type_label', {}).get(lang, 'Type')} :** {dest['type']}")
+                    st.write(dest["description"])
+                    
+                    # Boutons côte à côte sur desktop
+                    col1, col2 = st.columns(2)
+                    with col1:
+                        if st.button(f"🧠 {TEXTS.get('ai_opinion', {}).get(lang, 'Avis IA sur')} {dest['nom']}", key=f"ai_{dest['nom']}"):
+                            with st.spinner(TEXTS.get('ai_opinion_loading', {}).get(lang, 'Génération de l\'avis IA...')):
+                                avis = ai.ask(f"Donne-moi un avis de voyageur sur la destination tunisienne suivante : {dest['nom']}. Fais-le en 3 phrases maximum.")
+                                st.success(avis)
+                    with col2:
+                        item = {
+                            "id": dest["nom"],
+                            "name": dest["nom"],
+                            "description": dest["description"],
+                            "location": dest["region"],
+                            "type": dest["type"]
+                        }
+                        add_to_favorites_button("destinations", item, f"fav_{dest['nom']}")
+            
             st.markdown("---")
 
 st.info(TEXTS.get('dest_dynamic', {}).get(lang, 'Affichage dynamique des destinations à venir…'))

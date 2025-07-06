@@ -3,6 +3,10 @@ import os
 from agents.ai_agent import AIAgent
 from utils.translate import translate_text
 from utils.favorites_manager import add_to_favorites_button
+from utils.mobile_utils import get_responsive_columns, responsive_image_display, optimize_for_mobile
+
+# Optimisations mobile
+optimize_for_mobile()
 
 st.session_state["lang"] = "fr"
 lang = "fr"
@@ -156,21 +160,24 @@ if not filtered:
 else:
     ai = AIAgent()
     
-    # Affichage en grille
-    cols = st.columns(2)
+    # Affichage responsive en grille
+    cols_per_row = get_responsive_columns()
+    cols = st.columns(cols_per_row)
+    
     for i, mon in enumerate(filtered):
-        with cols[i % 2]:
+        with cols[i % cols_per_row]:
             with st.container():
-                # Utiliser l'image locale
+                # Utiliser l'image locale avec affichage responsive
                 image_path = os.path.join("images", mon["image"])
                 if os.path.exists(image_path):
-                    st.image(image_path, use_container_width=True, caption=mon["nom"])
+                    responsive_image_display(image_path, mon["nom"])
                 else:
                     st.error(TEXTS.get('img_not_found', {}).get(lang, f"Image non trouvée: {mon['image']}"))
                 
                 st.subheader(mon["nom"])
                 st.markdown(f"**{TEXTS.get('city_label', {}).get(lang, 'Ville')} :** {mon['ville']}")
                 st.write(mon["description"])
+                
                 # Ajout du bouton favoris
                 item = {
                     "id": mon["nom"],
@@ -198,5 +205,5 @@ st.sidebar.markdown(f"**{TEXTS.get('shown', {}).get(lang, 'Affichés')} :** {len
 # Recommandation IA
 if st.sidebar.button(f"🎯 {TEXTS.get('must_see', {}).get(lang, 'Monument à ne pas manquer')}"):
     with st.spinner(TEXTS.get('ai_recommend_loading', {}).get(lang, 'Génération de recommandation...')):
-        recommendation = ai.ask("Quel est le monument historique le plus impressionnant et incontournable à visiter en Tunisie ? Donne-moi une recommandation avec les raisons de sa visite. Fais-le en 3 phrases maximum.")
+        recommendation = ai.ask(f"Parmi ces monuments tunisiens : {', '.join([m['nom'] for m in MONUMENTS])}, quel est le monument le plus impressionnant et pourquoi ? Donne une recommandation personnalisée en 3-4 phrases.")
         st.sidebar.success(recommendation) 
