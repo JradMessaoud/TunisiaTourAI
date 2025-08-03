@@ -1,5 +1,7 @@
 # 🇹🇳 TunisiaTourAI
 
+https://tunisiatourai.streamlit.app/
+
 **Votre guide intelligent pour découvrir la beauté et la richesse de la Tunisie**
 
 Une application Streamlit moderne qui combine l'intelligence artificielle avec une base de données complète sur les destinations, monuments et festivals tunisiens.
