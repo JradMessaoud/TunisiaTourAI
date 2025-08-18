@@ -177,7 +177,7 @@ This project is licensed under the **MIT License**. See [LICENSE](LICENSE) for d
 
 Developed with ❤️ for Tunisia by **Messaoud Jrad**
 
-* [LinkedIn](https://www.linkedin.com/in/massoud-jrad-1a9250321/)
+* [LinkedIn](https://www.linkedin.com/in/messaoud-jrad-1a9250321/)
 * [GitHub](https://github.com/JradMessaoud)
 
 ---
