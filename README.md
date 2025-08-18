@@ -1,188 +1,186 @@
+
 # 🇹🇳 TunisiaTourAI
 
-https://tunisiatourai.streamlit.app/
+**Your intelligent guide to discovering the beauty and richness of Tunisia**  
 
-**Votre guide intelligent pour découvrir la beauté et la richesse de la Tunisie**
+A modern **Streamlit application** that combines **artificial intelligence** with a complete database of Tunisia’s **destinations, monuments, and festivals**.  
 
-Une application Streamlit moderne qui combine l'intelligence artificielle avec une base de données complète sur les destinations, monuments et festivals tunisiens.
+🌐 Live Demo: [TunisiaTourAI](https://tunisiatourai.streamlit.app/)  
+📂 Repository: https://github.com/JradMessaoud/TunisiaTourAI  
 
-## ✨ Fonctionnalités Principales
+---
+
+## ✨ Features
 
 ### 🏖️ Destinations
-- **15 destinations** couvrant tout le territoire tunisien
-- Images authentiques de Wikimedia Commons
-- Filtres par région et type de destination
-- Avis IA personnalisés pour chaque lieu
-- Système de favoris intégré
+- 15 destinations covering all Tunisian regions  
+- Authentic images from Wikimedia Commons  
+- Filters by region and type  
+- Personalized AI reviews  
+- Favorites system  
 
 ### 🗿 Monuments
-- **18 monuments** historiques et culturels
-- Sites archéologiques et religieux
-- Descriptions détaillées avec contexte historique
-- Recommandations IA pour la visite
+- 18 historical and cultural monuments  
+- Archaeological and religious sites  
+- Detailed descriptions with historical context  
+- AI visit recommendations  
 
 ### 🎉 Festivals
-- **19 festivals** et événements culturels
-- Calendrier saisonnier complet
-- Informations pratiques et culturelles
-- Festivals traditionnels et modernes
+- 19 cultural festivals and seasonal events  
+- Complete yearly calendar  
+- Practical and cultural information  
+- Traditional and modern celebrations  
 
-### 🤖 Assistant IA Tunisien
-- **Gemini 2.0 Flash** pour des réponses intelligentes
-- Spécialisé uniquement sur la Tunisie
-- Réponses en français détaillées et engageantes
-- Cache intelligent pour optimiser les performances
+### 🤖 Tunisian AI Assistant
+- Powered by **Gemini 2.0 Flash**  
+- Specialized exclusively in Tunisia  
+- Detailed and engaging answers (in French)  
+- Smart caching system for performance  
 
-### 🗺️ Planificateur de Voyage
-- Interface interactive pour créer des itinéraires
-- Paramètres personnalisables (durée, budget, intérêts)
-- Génération d'itinéraires par l'IA
-- Exemples d'itinéraires populaires
+### 🗺️ Travel Planner
+- Interactive trip planner  
+- Customizable (duration, budget, interests)  
+- AI-generated itineraries  
+- Popular itinerary examples  
 
-### ❤️ Système de Favoris
-- Sauvegarde des lieux préférés
-- Organisation par catégorie
-- Interface dédiée pour gérer les favoris
-- Persistance des données
+### ❤️ Favorites
+- Save and organize your favorite places  
+- Category-based management  
+- Persistent storage  
 
-## 🚀 Nouvelles Fonctionnalités (v2.0)
+---
 
-### ⚡ Optimisations Performance
-- **Système de cache** pour les réponses IA
-- Réduction des appels API répétés
-- Chargement optimisé des images
-- Interface responsive
+## 🚀 New in v2.0
 
-### 📊 Monitoring et Logs
-- **Système de logs** complet
-- Monitoring des performances
-- Suivi des requêtes IA
-- Statistiques d'utilisation
+- ⚡ **Performance Optimizations** (caching, faster image loading, fewer API calls)  
+- 📊 **Monitoring & Logs** (full logging, usage stats, performance tracking)  
+- 🎨 **Enhanced UI** (modern Tunisian theme, animations, responsive design)  
 
-### 🎨 Interface Améliorée
-- **Design tunisien** (rouge et blanc)
-- Animations et transitions
-- Interface moderne et intuitive
-- Thème cohérent sur toutes les pages
+---
 
 ## 🛠️ Installation
 
-### Prérequis
-- Python 3.8+
-- Clé API Gemini (Google AI Studio)
+### Requirements
+- Python 3.8+  
+- Gemini API Key (Google AI Studio)  
 
-### Installation
+### Setup
 ```bash
-# Cloner le repository
-git clone <repository-url>
+# Clone the repository
+git clone https://github.com/JradMessaoud/TunisiaTourAI
 cd TunisiaTourAI
 
-# Installer les dépendances
+# Install dependencies
 pip install -r requirements.txt
 
-# Configurer l'API
-# Créer un fichier .env avec votre clé Gemini
-echo "GEMINI_API_KEY=votre_cle_api" > .env
+# Configure API key
+echo "GEMINI_API_KEY=your_api_key" > .env
 
-# Lancer l'application
+# Run the app
 streamlit run TunisiaTourAI/app.py
-```
+````
 
-## 📁 Structure du Projet
+---
+
+## 📁 Project Structure
 
 ```
 TunisiaTourAI/
 ├── TunisiaTourAI/
-│   ├── app.py                 # Application principale
-│   ├── config.py              # Configuration globale
+│   ├── app.py                 # Main app
+│   ├── config.py              # Global config
 │   ├── agents/
-│   │   └── ai_agent.py        # Agent IA avec cache et logs
+│   │   └── ai_agent.py        # AI agent with cache + logs
 │   ├── pages/
 │   │   ├── 1_🏖️_Destinations.py
 │   │   ├── 2_🗿_Monuments.py
-│   │   ├── 3_🎉_Événements.py
-│   │   ├── 4_🤖_ChatAvecIA.py
-│   │   ├── 5_🗺️_Planificateur.py  # Nouveau !
-│   │   └── 6_❤️_Favoris.py        # Nouveau !
+│   │   ├── 3_🎉_Festivals.py
+│   │   ├── 4_🤖_ChatWithAI.py
+│   │   ├── 5_🗺️_Planner.py
+│   │   └── 6_❤️_Favorites.py
 │   └── utils/
-│       ├── cache_manager.py   # Gestionnaire de cache
-│       ├── favorites_manager.py # Gestionnaire de favoris
-│       └── logger.py          # Système de logs
-├── images/                    # Images locales
-├── cache/                     # Cache des réponses IA
-├── logs/                      # Fichiers de logs
-├── favorites.json             # Favoris utilisateur
+│       ├── cache_manager.py
+│       ├── favorites_manager.py
+│       └── logger.py
+├── images/                    
+├── cache/                     
+├── logs/                      
+├── favorites.json             
 └── requirements.txt
 ```
 
-## 🎯 Utilisation
+---
 
-### Navigation
-1. **Page d'accueil** : Vue d'ensemble et assistant IA rapide
-2. **Destinations** : Explorez les lieux par région et type
-3. **Monuments** : Découvrez l'histoire tunisienne
-4. **Festivals** : Participez aux événements culturels
-5. **Planificateur** : Créez votre itinéraire personnalisé
-6. **Favoris** : Gérez vos lieux préférés
-7. **Chat IA** : Posez vos questions sur la Tunisie
+## 🎯 Usage
 
-### Fonctionnalités Avancées
-- **Favoris** : Cliquez sur 🤍 pour ajouter aux favoris
-- **Cache IA** : Les réponses sont mises en cache automatiquement
-- **Logs** : Monitoring automatique des performances
-- **Responsive** : Interface adaptée mobile et desktop
-
-## 🔧 Configuration
-
-### Variables d'Environnement
-```env
-GEMINI_API_KEY=votre_cle_api_gemini
-```
-
-### Configuration Avancée
-Modifiez `config.py` pour personnaliser :
-- Couleurs du thème
-- Paramètres de cache
-- Configuration IA
-- Régions et types de voyage
-
-## 📊 Statistiques
-
-- **15 destinations** couvrant 3 régions
-- **18 monuments** historiques
-- **19 festivals** saisonniers
-- **32 images** authentiques
-- **Cache IA** pour optimiser les performances
-- **Système de logs** pour le monitoring
-
-## 🤝 Contribution
-
-Les contributions sont les bienvenues ! Voici comment contribuer :
-
-1. Fork le projet
-2. Créez une branche pour votre fonctionnalité
-3. Committez vos changements
-4. Poussez vers la branche
-5. Ouvrez une Pull Request
-
-## 📝 TODO
-
-- [ ] Intégration de cartes interactives
-- [ ] Système de notation et avis
-- [ ] Mode sombre
-- [ ] Support multilingue complet
-- [ ] Export d'itinéraires en PDF
-- [ ] Intégration météo en temps réel
-- [ ] Système de notifications
-
-## 📄 Licence
-
-Ce projet est sous licence MIT. Voir le fichier `LICENSE` pour plus de détails.
-
-## 👨‍💻 Développeur
-
-**Jrad Messaoud** - Développé avec ❤️ pour la Tunisie
+* **Home** → Overview + Quick AI chat
+* **Destinations** → Explore Tunisia by region/type
+* **Monuments** → Discover history and heritage
+* **Festivals** → Cultural events and traditions
+* **Planner** → Build your itinerary
+* **Favorites** → Manage saved places
+* **AI Chat** → Ask anything about Tunisia
 
 ---
 
-*TunisiaTourAI - Votre guide intelligent pour découvrir la Tunisie* 🇹🇳 
+## 🔧 Configuration
+
+Edit `config.py` to customize:
+
+* Theme colors
+* Cache settings
+* AI behavior
+* Regions & categories
+
+---
+
+## 📊 Stats
+
+* 15 destinations
+* 18 monuments
+* 19 festivals
+* 32 authentic images
+* AI caching + full logging
+
+---
+
+## 📝 Roadmap
+
+* [ ] Interactive maps
+* [ ] Dark mode
+* [ ] Ratings & reviews
+* [ ] Multilingual support
+* [ ] Export itineraries to PDF
+* [ ] Real-time weather
+* [ ] Notifications
+
+---
+
+## 🤝 Contributing
+
+Contributions are welcome!
+
+1. Fork this repo
+2. Create a new branch
+3. Commit changes
+4. Open a Pull Request
+
+---
+
+## 📄 License
+
+This project is licensed under the **MIT License**. See [LICENSE](LICENSE) for details.
+
+---
+
+## 👨‍💻 Developer
+
+Developed with ❤️ for Tunisia by **Messaoud Jrad**
+
+* [LinkedIn](https://www.linkedin.com/in/massoud-jrad-1a9250321/)
+* [GitHub](https://github.com/JradMessaoud)
+
+---
+
+🌍 **TunisiaTourAI – Your intelligent guide to discover Tunisia.**
+
