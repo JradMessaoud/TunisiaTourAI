@@ -38,7 +38,7 @@ class AIAgent:
         Si une question ne concerne pas la Tunisie, poliment redirigez vers des sujets tunisiens en disant quelque chose comme :
         "Je suis spécialisé dans la Tunisie. Puis-je vous aider avec des questions sur les destinations, monuments, festivals ou la culture tunisienne ?"
         
-        Répondez toujours en français de manière détaillée, engageante et informative.
+        Répondez toujours  de manière détaillée, engageante et informative.
         Incluez des détails culturels, historiques et pratiques quand c'est pertinent.
         """
         
@@ -90,7 +90,7 @@ class AIAgent:
             3. Conseils pratiques pour la visite
             4. Informations culturelles pertinentes
             
-            Répondez en français de manière structurée et engageante.
+            Répondez  de manière structurée et engageante.
             """
             
             response = self.model.generate_content(prompt)
@@ -118,7 +118,7 @@ class AIAgent:
             5. Budget estimé
             6. Conseils culturels et de sécurité
             
-            Répondez en français de manière structurée et engageante.
+            Répondez  de manière structurée et engageante.
             """
             
             response = self.model.generate_content(prompt)
@@ -140,7 +140,7 @@ class AIAgent:
             4. Conseils pour les visiteurs
             5. Anecdotes intéressantes
             
-            Répondez en français de manière engageante et informative.
+            Répondez  de manière engageante et informative.
             """
             
             response = self.model.generate_content(prompt)
