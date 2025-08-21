@@ -6,18 +6,23 @@ from utils.cache_manager import cached_response, cache_manager
 from utils.logger import get_logger
 
 class AIAgent:
+    
     def __init__(self):
         """Initialise l'agent IA avec le contexte tunisien"""
-        # Clé API Gemini simple
-        api_key = "AIzaSyCpSrL4p1kGyA2Ub0tpc6iVmiz_Nvk_ftM"
+        # Récupérer la clé API depuis les secrets Streamlit (sécurisé)
+        self.api_key = st.secrets.get("GEMINI_API_KEY")
         
-        # Afficher la clé API dans la sidebar
-        st.sidebar.info(f"🔑 Clé API : nope")
-        
-        genai.configure(api_key=api_key)
-        
-        genai.configure(api_key=api_key)
-        self.model = genai.GenerativeModel('gemini-2.5-flash')
+        # Afficher le statut de l'API dans la sidebar
+        if self.api_key:
+            st.sidebar.success("🤖 IA Gemini : ✅ Configurée")
+            genai.configure(api_key=self.api_key)
+            self.model = genai.GenerativeModel('gemini-1.5-flash')
+            self.is_available = True
+        else:
+            st.sidebar.warning("🤖 IA Gemini : ❌ Non configurée")
+            self.is_available = False
+            self.model = None
+    
         
         # Contexte spécifique à la Tunisie
         self.tunisian_context = """
