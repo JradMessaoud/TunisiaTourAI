@@ -1,209 +1,238 @@
 import streamlit as st
 import os
 from agents.ai_agent import AIAgent
-from utils.translate import translate_text
 from utils.favorites_manager import add_to_favorites_button
 from utils.mobile_utils import get_responsive_columns, responsive_image_display, optimize_for_mobile
 
-# Optimisations mobile
+# Mobile optimizations
 optimize_for_mobile()
 
-st.session_state["lang"] = "fr"
-lang = "fr"
+# Language / texts
+st.session_state["lang"] = "en"
+lang = "en"
 TEXTS = st.session_state.get('TEXTS', {})
 
-st.title(TEXTS.get('mon_title', {}).get(lang, '🗿 Monuments historiques de Tunisie'))
+# Cached labels / fallbacks
+title_text = TEXTS.get('mon_title', {}).get(lang, '🏛️ Historic Monuments of Tunisia')
+city_label = TEXTS.get('city_label', {}).get(lang, 'City / Region')
+all_cities_label = TEXTS.get('all_cities', {}).get(lang, 'All')
+img_not_found_text = TEXTS.get('img_not_found', {}).get(lang, 'Image not found')
+no_mon_text = TEXTS.get('no_mon', {}).get(lang, 'No monuments found for this city/region.')
+ai_explain_label = TEXTS.get('ai_explain', {}).get(lang, 'AI explanation for')
+ai_explain_loading = TEXTS.get('ai_explain_loading', {}).get(lang, 'Generating AI explanation...')
+stats_label = TEXTS.get('stats', {}).get(lang, 'Statistics')
+total_label = TEXTS.get('total', {}).get(lang, 'Total')
+shown_label = TEXTS.get('shown', {}).get(lang, 'Shown')
+monuments_label = TEXTS.get('monuments', {}).get(lang, 'monuments')
+must_see_label = TEXTS.get('must_see', {}).get(lang, 'Must-see monument')
+ai_recommend_loading = TEXTS.get('ai_recommend_loading', {}).get(lang, 'Generating recommendation...')
 
-# Mapping des monuments vers les images locales
+st.title(title_text)
+
+# Mapping monuments to local images
 MONUMENT_IMAGES = {
-    "Colisée d'El Jem": "Amphi_El_Jem.jpg",
-    "Mosquée Okba": "800px-Grande_Mosquée_de_Kairouan,_vue_d'ensemble.jpg",
-    "Site de Carthage": "Carthage.JPG",
+    "El Jem Colosseum": "Amphi_El_Jem.jpg",
+    "Okba Mosque": "800px-Grande_Mosquée_de_Kairouan,_vue_d'ensemble.jpg",
+    "Carthage Site": "Carthage.JPG",
     "Dougga": "Dougga.jpg",
-    "Ribat de Monastir": "MONASTIR_RIBAT.jpg",
-    "Médina de Tunis": "medina_tunis.jpg",
-    "Médina de Sousse": "MEDINA OF SOUSSE.jpg",
-    "Médina de Sfax": "MEDINA OF _Sfax.jpg",
-    "Mausolée de Bourguiba": "bourguiba_mausoleum.jpg",
-    "Cathédrale Saint-Louis": "CATHEDRAL SAINT LOUIS CARTHAGE.jpg",
-    "Fort de Kélibia": "Fort_de_kelibia_3.jpg",
-    "Citadelle du Kef": "KEF CITADELLE.jpg",
-    "Mosquée Zitouna": "zitouna.jpg",
-    "Port de Bizerte": "port_de_BIZERTE-Tunisie.jpg",
-    "Site de Bulla Regia": "bulla_regia.jpg",
-    "Site de Thuburbo Majus": "thuburbo_majus.jpg",
-    "Médina de Testour": "Testour.jpg",
-    "Site de Makthar": "MAKTHAR.jpg"
+    "Monastir Ribat": "MONASTIR_RIBAT.jpg",
+    "Tunis Medina": "medina_tunis.jpg",
+    "Sousse Medina": "MEDINA OF SOUSSE.jpg",
+    "Sfax Medina": "MEDINA OF _Sfax.jpg",
+    "Bourguiba Mausoleum": "bourguiba_mausoleum.jpg",
+    "Saint-Louis Cathedral": "CATHEDRAL SAINT LOUIS CARTHAGE.jpg",
+    "Kelibia Fort": "Fort_de_kelibia_3.jpg",
+    "Kef Citadel": "KEF CITADELLE.jpg",
+    "Zitouna Mosque": "zitouna.jpg",
+    "Bizerte Port": "port_de_BIZERTE-Tunisie.jpg",
+    "Bulla Regia Site": "bulla_regia.jpg",
+    "Thuburbo Majus Site": "thuburbo_majus.jpg",
+    "Testour Medina": "Testour.jpg",
+    "Makthar Site": "MAKTHAR.jpg"
 }
 
-# Données enrichies de monuments
+# Monuments data (English keys and descriptions)
 MONUMENTS = [
     {
-        "nom": "Colisée d'El Jem",
-        "ville": "El Jem",
-        "image": MONUMENT_IMAGES["Colisée d'El Jem"],
-        "description": "Un amphithéâtre romain impressionnant, classé au patrimoine mondial de l'UNESCO. Troisième plus grand amphithéâtre du monde romain après Rome et Capoue."
+        "name": "El Jem Colosseum",
+        "city": "El Jem",
+        "image": MONUMENT_IMAGES["El Jem Colosseum"],
+        "description": "An impressive Roman amphitheatre listed as a UNESCO World Heritage site. It is the third-largest amphitheatre of the Roman world after Rome and Capua."
     },
     {
-        "nom": "Mosquée Okba",
-        "ville": "Kairouan",
-        "image": MONUMENT_IMAGES["Mosquée Okba"],
-        "description": "L'une des plus anciennes et prestigieuses mosquées du monde musulman. Centre spirituel de l'Islam en Afrique du Nord et quatrième lieu saint de l'Islam."
+        "name": "Okba Mosque",
+        "city": "Kairouan",
+        "image": MONUMENT_IMAGES["Okba Mosque"],
+        "description": "One of the oldest and most prestigious mosques in the Muslim world. It is a spiritual center of Islam in North Africa and a major historic religious site."
     },
     {
-        "nom": "Site de Carthage",
-        "ville": "Carthage",
-        "image": MONUMENT_IMAGES["Site de Carthage"],
-        "description": "Ruines antiques d'une cité mythique, centre de la civilisation carthaginoise. Classé au patrimoine mondial de l'UNESCO, témoin de l'histoire punique et romaine."
+        "name": "Carthage Site",
+        "city": "Carthage",
+        "image": MONUMENT_IMAGES["Carthage Site"],
+        "description": "Ancient ruins of a legendary city that was the center of Carthaginian civilization. A UNESCO World Heritage site bearing witness to Punic and Roman history."
     },
     {
-        "nom": "Dougga",
-        "ville": "Téboursouk",
+        "name": "Dougga",
+        "city": "Téboursouk",
         "image": MONUMENT_IMAGES["Dougga"],
-        "description": "Un site archéologique romain remarquablement préservé, inscrit à l'UNESCO. Théâtre, temples et forum parfaitement conservés dans un cadre naturel exceptionnel."
+        "description": "A remarkably well-preserved Roman archaeological site listed by UNESCO. It features a theatre, temples, and a forum set in exceptional natural surroundings."
     },
     {
-        "nom": "Ribat de Monastir",
-        "ville": "Monastir",
-        "image": MONUMENT_IMAGES["Ribat de Monastir"],
-        "description": "Forteresse militaire islamique du 8ème siècle. Vue panoramique sur la mer et la ville. Architecture militaire arabe typique avec tours de guet et remparts."
+        "name": "Monastir Ribat",
+        "city": "Monastir",
+        "image": MONUMENT_IMAGES["Monastir Ribat"],
+        "description": "An 8th-century Islamic military fortress with panoramic views over the sea and town. Typical Arabic military architecture with watchtowers and ramparts."
     },
     {
-        "nom": "Médina de Tunis",
-        "ville": "Tunis",
-        "image": MONUMENT_IMAGES["Médina de Tunis"],
-        "description": "Centre historique de Tunis, classé UNESCO. Ruelles labyrinthiques, souks animés et architecture traditionnelle arabo-andalouse préservée."
+        "name": "Tunis Medina",
+        "city": "Tunis",
+        "image": MONUMENT_IMAGES["Tunis Medina"],
+        "description": "Historic centre of Tunis and a UNESCO World Heritage site. Labyrinthine alleys, lively souks, and preserved Arab-Andalusian architecture."
     },
     {
-        "nom": "Médina de Sousse",
-        "ville": "Sousse",
-        "image": MONUMENT_IMAGES["Médina de Sousse"],
-        "description": "Médina fortifiée classée UNESCO. Remparts impressionnants, ribat historique et architecture militaire arabe du 9ème siècle."
+        "name": "Sousse Medina",
+        "city": "Sousse",
+        "image": MONUMENT_IMAGES["Sousse Medina"],
+        "description": "A fortified medina listed by UNESCO. Impressive ramparts, a historic ribat, and 9th-century military architecture."
     },
     {
-        "nom": "Médina de Sfax",
-        "ville": "Sfax",
-        "image": MONUMENT_IMAGES["Médina de Sfax"],
-        "description": "Plus grande médina d'Afrique du Nord. Architecture traditionnelle préservée et ambiance authentique avec ses souks spécialisés."
+        "name": "Sfax Medina",
+        "city": "Sfax",
+        "image": MONUMENT_IMAGES["Sfax Medina"],
+        "description": "The largest medina in North Africa, with preserved traditional architecture and authentic market districts specialized by trade."
     },
     {
-        "nom": "Mausolée de Bourguiba",
-        "ville": "Monastir",
-        "image": MONUMENT_IMAGES["Mausolée de Bourguiba"],
-        "description": "Tombeau du père de l'indépendance tunisienne. Architecture moderne inspirée de l'art islamique avec dômes dorés et marbre blanc."
+        "name": "Bourguiba Mausoleum",
+        "city": "Monastir",
+        "image": MONUMENT_IMAGES["Bourguiba Mausoleum"],
+        "description": "The tomb of the father of Tunisian independence, featuring modern architecture inspired by Islamic art with golden domes and white marble."
     },
     {
-        "nom": "Cathédrale Saint-Louis",
-        "ville": "Carthage",
-        "image": MONUMENT_IMAGES["Cathédrale Saint-Louis"],
-        "description": "Ancienne cathédrale catholique de style byzantin. Vue imprenable sur le golfe de Tunis et témoin de l'époque coloniale française."
+        "name": "Saint-Louis Cathedral",
+        "city": "Carthage",
+        "image": MONUMENT_IMAGES["Saint-Louis Cathedral"],
+        "description": "A former Catholic cathedral in a Byzantine style with sweeping views over the Gulf of Tunis; a reminder of the French colonial era."
     },
     {
-        "nom": "Fort de Kélibia",
-        "ville": "Kélibia",
-        "image": MONUMENT_IMAGES["Fort de Kélibia"],
-        "description": "Forteresse byzantine puis arabe. Vue panoramique sur la mer et la péninsule du Cap Bon. Architecture militaire méditerranéenne."
+        "name": "Kelibia Fort",
+        "city": "Kelibia",
+        "image": MONUMENT_IMAGES["Kelibia Fort"],
+        "description": "A fortress of Byzantine and later Arabic origin with panoramic views over the sea and Cape Bon peninsula. Mediterranean military architecture at its best."
     },
     {
-        "nom": "Citadelle du Kef",
-        "ville": "Le Kef",
-        "image": MONUMENT_IMAGES["Citadelle du Kef"],
-        "description": "Citadelle ottomane perchée sur un rocher. Vue imprenable sur les montagnes de l'Atlas et la ville historique du Kef."
+        "name": "Kef Citadel",
+        "city": "Le Kef",
+        "image": MONUMENT_IMAGES["Kef Citadel"],
+        "description": "An Ottoman citadel perched on a rock offering sweeping views of the Atlas Mountains and the historic town of Kef."
     },
     {
-        "nom": "Mosquée Zitouna",
-        "ville": "Tunis",
-        "image": MONUMENT_IMAGES["Mosquée Zitouna"],
-        "description": "Plus grande mosquée de Tunis. Architecture arabo-andalouse et centre d'enseignement islamique depuis le 8ème siècle."
+        "name": "Zitouna Mosque",
+        "city": "Tunis",
+        "image": MONUMENT_IMAGES["Zitouna Mosque"],
+        "description": "The main mosque of Tunis with Arab-Andalusian architecture, a center of Islamic learning since the 8th century."
     },
     {
-        "nom": "Port de Bizerte",
-        "ville": "Bizerte",
-        "image": MONUMENT_IMAGES["Port de Bizerte"],
-        "description": "Port historique avec ses fortifications. Mélange d'architecture militaire et portuaire, témoin de l'histoire maritime tunisienne."
+        "name": "Bizerte Port",
+        "city": "Bizerte",
+        "image": MONUMENT_IMAGES["Bizerte Port"],
+        "description": "A historic port with fortifications that reflect Tunisia's maritime past and military architecture."
     },
     {
-        "nom": "Site de Bulla Regia",
-        "ville": "Jendouba",
-        "image": MONUMENT_IMAGES["Site de Bulla Regia"],
-        "description": "Site romain unique avec des maisons souterraines. Architecture adaptée au climat chaud avec des pièces enterrées pour la fraîcheur."
+        "name": "Bulla Regia Site",
+        "city": "Jendouba",
+        "image": MONUMENT_IMAGES["Bulla Regia Site"],
+        "description": "A unique Roman site known for its underground houses designed to keep interiors cool in the hot climate."
     },
     {
-        "nom": "Site de Thuburbo Majus",
-        "ville": "Zaghouan",
-        "image": MONUMENT_IMAGES["Site de Thuburbo Majus"],
-        "description": "Cité romaine avec forum, temples et thermes. Architecture romaine classique bien préservée dans un cadre rural."
+        "name": "Thuburbo Majus Site",
+        "city": "Zaghouan",
+        "image": MONUMENT_IMAGES["Thuburbo Majus Site"],
+        "description": "A Roman town with a forum, temples and baths; classical Roman architecture well preserved in a rural setting."
     },
     {
-        "nom": "Médina de Testour",
-        "ville": "Testour",
-        "image": MONUMENT_IMAGES["Médina de Testour"],
-        "description": "Médina andalouse avec architecture unique. Influence espagnole et traditions culinaires héritées des Morisques."
+        "name": "Testour Medina",
+        "city": "Testour",
+        "image": MONUMENT_IMAGES["Testour Medina"],
+        "description": "An Andalusian-influenced medina with unique architecture and culinary traditions inherited from Moriscos."
     },
     {
-        "nom": "Site de Makthar",
-        "ville": "Makthar",
-        "image": MONUMENT_IMAGES["Site de Makthar"],
-        "description": "Site archéologique avec vestiges numides et romains. Arc de triomphe et forum bien conservés dans un paysage de steppe."
+        "name": "Makthar Site",
+        "city": "Makthar",
+        "image": MONUMENT_IMAGES["Makthar Site"],
+        "description": "An archaeological site with Numidian and Roman remains, including a well-preserved triumphal arch and forum."
     }
 ]
 
-# Filtres dynamiques
-villes = [TEXTS.get('all_cities', {}).get(lang, 'Toutes')] + sorted(list(set(m["ville"] for m in MONUMENTS)))
-ville = st.selectbox(TEXTS.get('city_label', {}).get(lang, 'Ville/Région'), villes)
+# Instantiate AI agent early so sidebar controls always work
+ai = AIAgent()
 
-# Filtrage
-filtered = [m for m in MONUMENTS if ville == TEXTS.get('all_cities', {}).get(lang, 'Toutes') or m["ville"] == ville]
+# Dynamic filters
+cities = [all_cities_label] + sorted(list({m["city"] for m in MONUMENTS}))
+selected_city = st.selectbox(city_label, cities)
+
+# Filtering
+filtered = [m for m in MONUMENTS if selected_city == all_cities_label or m["city"] == selected_city]
 
 if not filtered:
-    st.warning(TEXTS.get('no_mon', {}).get(lang, 'Aucun monument trouvé pour cette ville/région.'))
+    st.warning(no_mon_text)
 else:
-    ai = AIAgent()
-    
-    # Affichage responsive en grille
+    # Responsive grid display
     cols_per_row = get_responsive_columns()
+    try:
+        cols_per_row = max(1, int(cols_per_row))
+    except Exception:
+        cols_per_row = 1
+
     cols = st.columns(cols_per_row)
-    
+
     for i, mon in enumerate(filtered):
         with cols[i % cols_per_row]:
             with st.container():
-                # Utiliser l'image locale avec affichage responsive
-                image_path = os.path.join("images", mon["image"])
-                if os.path.exists(image_path):
-                    responsive_image_display(image_path, mon["nom"])
+                image_path = os.path.join("images", mon["image"]) if mon.get("image") else None
+                if image_path and os.path.exists(image_path):
+                    responsive_image_display(image_path, mon["name"])
                 else:
-                    st.error(TEXTS.get('img_not_found', {}).get(lang, f"Image non trouvée: {mon['image']}"))
-                
-                st.subheader(mon["nom"])
-                st.markdown(f"**{TEXTS.get('city_label', {}).get(lang, 'Ville')} :** {mon['ville']}")
+                    st.error(f"{img_not_found_text}: {mon.get('image')}")
+
+                st.subheader(mon["name"])
+                st.markdown(f"**{city_label} :** {mon['city']}")
                 st.write(mon["description"])
-                
-                # Ajout du bouton favoris
+
+                # Favorites button
                 item = {
-                    "id": mon["nom"],
-                    "name": mon["nom"],
+                    "id": mon["name"],
+                    "name": mon["name"],
                     "description": mon["description"],
-                    "location": mon["ville"],
+                    "location": mon["city"],
                     "type": "monument"
                 }
-                add_to_favorites_button("monuments", item, f"fav_{mon['nom']}")
-                
-                # Bouton pour explication IA
-                if st.button(f"🧠 {TEXTS.get('ai_explain', {}).get(lang, 'Explication IA sur')} {mon['nom']}", key=f"explication_{mon['nom']}"):
-                    with st.spinner(TEXTS.get('ai_explain_loading', {}).get(lang, 'Génération de l\'explication IA...')):
-                        explication = ai.ask(f"Explique-moi l'histoire détaillée, l'importance culturelle et architecturale du monument suivant en Tunisie : {mon['nom']}. Inclus les périodes historiques, les influences architecturales et les anecdotes intéressantes. Fais-le en 5-6 phrases maximum.")
-                        st.success(explication)
-                
+                add_to_favorites_button("monuments", item, f"fav_{mon['name']}")
+
+                # AI explanation button
+                if st.button(f"🧠 {ai_explain_label} {mon['name']}", key=f"explain_{mon['name']}"):
+                    with st.spinner(ai_explain_loading):
+                        prompt = (
+                            f"Explain the detailed history, cultural and architectural significance of the following Tunisian monument: {mon['name']}. "
+                            "Include historical periods, architectural influences and interesting anecdotes. Keep it to 5-6 sentences."
+                        )
+                        explanation = ai.ask(prompt)
+                        st.success(explanation)
+
                 st.markdown("---")
 
-# Statistiques
+# Sidebar statistics
 st.sidebar.markdown("---")
-st.sidebar.markdown(f"**📊 {TEXTS.get('stats', {}).get(lang, 'Statistiques')}**")
-st.sidebar.markdown(f"**{TEXTS.get('total', {}).get(lang, 'Total')} :** {len(MONUMENTS)} {TEXTS.get('monuments', {}).get(lang, 'monuments')}")
-st.sidebar.markdown(f"**{TEXTS.get('shown', {}).get(lang, 'Affichés')} :** {len(filtered)} {TEXTS.get('monuments', {}).get(lang, 'monuments')}")
+st.sidebar.markdown(f"**📊 {stats_label}**")
+st.sidebar.markdown(f"**{total_label} :** {len(MONUMENTS)} {monuments_label}")
+st.sidebar.markdown(f"**{shown_label} :** {len(filtered)} {monuments_label}")
 
-# Recommandation IA
-if st.sidebar.button(f"🎯 {TEXTS.get('must_see', {}).get(lang, 'Monument à ne pas manquer')}"):
-    with st.spinner(TEXTS.get('ai_recommend_loading', {}).get(lang, 'Génération de recommandation...')):
-        recommendation = ai.ask(f"Parmi ces monuments tunisiens : {', '.join([m['nom'] for m in MONUMENTS])}, quel est le monument le plus impressionnant et pourquoi ? Donne une recommandation personnalisée en 3-4 phrases.")
-        st.sidebar.success(recommendation) 
+# Sidebar AI recommendation
+if st.sidebar.button(f"🎯 {must_see_label}"):
+    with st.sidebar.spinner(ai_recommend_loading):
+        names_list = ", ".join([m['name'] for m in MONUMENTS])
+        prompt = (
+            f"Among these Tunisian monuments: {names_list}, which is the most impressive and why? "
+            "Give a personalized recommendation in 3-4 sentences."
+        )
+        recommendation = ai.ask(prompt)
+        st.sidebar.success(recommendation)
