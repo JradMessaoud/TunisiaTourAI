@@ -557,8 +557,8 @@ st.sidebar.success("✅ Google API key configured")
 st.sidebar.info("🔑 API Key: YOUR API KEY")
 
 # Main page
-st.markdown(f"## {TEXTS['welcome'][lang]}")
-
+welcome_text = TEXTS.get('welcome', {}).get(lang, "Welcome to Tunisia")
+st.markdown(f"## {welcome_text}")
 # Introduction
 st.markdown(f"""
 <div class="stContainer">
