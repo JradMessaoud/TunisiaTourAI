@@ -2,14 +2,14 @@ import streamlit as st
 from utils.favorites_manager import display_favorites_page
 from utils.translate import translate_text
 
-# Configuration de la page
+# Page configuration
 st.set_page_config(
-    page_title="❤️ Mes Favoris - TunisiaTourAI",
+    page_title="❤️ My Favorites - TunisiaTourAI",
     page_icon="❤️",
     layout="wide"
 )
 
-# CSS minimal pour le style général (optionnel, à garder si besoin)
+# Minimal CSS for overall style (optional)
 st.markdown("""
 <style>
     .favorites-container {
@@ -29,22 +29,19 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# Titre principal en markdown natif
-st.markdown("## ❤️ Mes Favoris")
-st.markdown("Retrouvez tous vos lieux et itinéraires préférés en Tunisie")
+# Main title
+st.markdown("## ❤️ My Favorites")
+st.markdown("Find all your favorite places and itineraries in Tunisia")
 
-# Affichage de la page des favoris
+# Display favorites page
 display_favorites_page()
 
-# Footer natif
+# Footer
 st.markdown("---")
-st.markdown("❤️ Favoris créés avec ❤️ pour la Tunisie par **Jrad Messaoud**")
+st.markdown("❤️ Favorites created with ❤️ for Tunisia by **Jrad Messaoud**")
 
-# Après chaque génération de texte dynamique (ex: description IA, résumé IA, etc.)
-st.session_state["lang"] = "fr"
-lang = "fr"
+# Ensure UI language state defaults to English
+st.session_state.setdefault("lang", "en")
+lang = st.session_state.get("lang", "en")
 TEXTS = st.session_state.get('TEXTS', {})
 
-if lang != 'fr':
-    texte = translate_text(texte, lang)
-# st.markdown(texte) ou affichage équivalent 
