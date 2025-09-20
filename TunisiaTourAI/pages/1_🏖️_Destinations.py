@@ -142,12 +142,17 @@ DESTINATIONS = [
     }
 ]
 
+# ✅ FIXED PART
 regions = [TEXTS.get('all_regions', {}).get(lang, 'All')] + sorted(list(set(d["region"] for d in DESTINATIONS)))
-types = [TEXTS.get('all_types', {}).get(lang, 'All')) + sorted(list(set(d["type"] for d in DESTINATIONS)))]
+types = [TEXTS.get('all_types', {}).get(lang, 'All')] + sorted(list(set(d["type"] for d in DESTINATIONS)))
 region = st.selectbox(TEXTS.get('region_label', {}).get(lang, 'Region'), regions)
 place_type = st.selectbox(TEXTS.get('type_label', {}).get(lang, 'Type'), types)
 
-filtered = [d for d in DESTINATIONS if (region == TEXTS.get('all_regions', {}).get(lang, 'All') or d["region"] == region) and (place_type == TEXTS.get('all_types', {}).get(lang, 'All') or d["type"] == place_type)]
+filtered = [
+    d for d in DESTINATIONS
+    if (region == TEXTS.get('all_regions', {}).get(lang, 'All') or d["region"] == region)
+    and (place_type == TEXTS.get('all_types', {}).get(lang, 'All') or d["type"] == place_type)
+]
 
 if not filtered:
     st.warning(TEXTS.get('no_dest', {}).get(lang, 'No destinations found for these criteria.'))
