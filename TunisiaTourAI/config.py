@@ -1,6 +1,6 @@
 """
-Configuration pour TunisiaTourAI
-Optimisation des performances et gestion des paramètres
+Configuration for TunisiaTourAI
+Performance optimizations and parameters management (English version)
 """
 
 import os
@@ -8,28 +8,28 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-# Configuration de l'application
+# Application configuration
 APP_CONFIG = {
     "name": "TunisiaTourAI",
     "version": "2.0.0",
-    "description": "Guide intelligent pour la Tunisie",
+    "description": "Intelligent guide for Tunisia",
     "author": "TunisiaTourAI Team",
-    "language": "fr",
+    "language": "en",
     "theme": "tunisian"
 }
 
-# Configuration des couleurs tunisiennes
+# Tunisian color palette
 TUNISIAN_COLORS = {
-    "primary": "#E70013",      # Rouge tunisien
-    "primary_dark": "#B3000F", # Rouge foncé
-    "white": "#FFFFFF",        # Blanc
-    "light": "#F8F9FA",        # Gris clair
-    "gray": "#6C757D",         # Gris
-    "dark": "#1E1E1E",         # Noir
-    "gold": "#FFD700"          # Or
+    "primary": "#E70013",      # Tunisian red
+    "primary_dark": "#B3000F", # Dark red
+    "white": "#FFFFFF",
+    "light": "#F8F9FA",
+    "gray": "#6C757D",
+    "dark": "#1E1E1E",
+    "gold": "#FFD700"
 }
 
-# Configuration de l'IA
+# AI configuration
 AI_CONFIG = {
     "model": "models/gemini-2.0-flash-exp",
     "max_tokens": 1000,
@@ -38,7 +38,7 @@ AI_CONFIG = {
     "timeout": 30
 }
 
-# Configuration des images
+# Image configuration
 IMAGE_CONFIG = {
     "max_size": 5 * 1024 * 1024,  # 5MB
     "allowed_formats": [".jpg", ".jpeg", ".png", ".webp"],
@@ -46,16 +46,16 @@ IMAGE_CONFIG = {
     "quality": 85
 }
 
-# Configuration des performances
+# Performance configuration
 PERFORMANCE_CONFIG = {
-    "cache_ttl": 3600,  # 1 heure
+    "cache_ttl": 3600,  # 1 hour
     "max_concurrent_requests": 5,
     "request_timeout": 30,
     "enable_caching": True,
     "enable_compression": True
 }
 
-# Configuration des données
+# Data configuration
 DATA_CONFIG = {
     "destinations_file": "data/destinations.json",
     "monuments_file": "data/monuments.json",
@@ -64,7 +64,7 @@ DATA_CONFIG = {
     "backup_folder": "backups/"
 }
 
-# Configuration de la sécurité
+# Security configuration
 SECURITY_CONFIG = {
     "max_file_upload_size": 10 * 1024 * 1024,  # 10MB
     "allowed_file_types": ["jpg", "jpeg", "png", "webp"],
@@ -72,121 +72,122 @@ SECURITY_CONFIG = {
     "max_requests_per_minute": 60
 }
 
-# Configuration des messages d'erreur
+# Error messages (English)
 ERROR_MESSAGES = {
-    "api_key_missing": "Clé API Gemini manquante. Veuillez configurer GEMINI_API_KEY dans le fichier .env",
-    "quota_exceeded": "Limite d'utilisation dépassée. Veuillez attendre quelques minutes.",
-    "image_not_found": "Image non trouvée dans le dossier images/",
-    "invalid_request": "Requête invalide. Veuillez vérifier vos paramètres.",
-    "timeout": "Délai d'attente dépassé. Veuillez réessayer.",
-    "network_error": "Erreur de réseau. Vérifiez votre connexion internet."
+    "api_key_missing": "Gemini API key missing. Please configure GEMINI_API_KEY in your .env or Streamlit secrets.",
+    "quota_exceeded": "Usage limit exceeded. Please wait a few minutes.",
+    "image_not_found": "Image not found in the images/ folder",
+    "invalid_request": "Invalid request. Please check your parameters.",
+    "timeout": "Request timed out. Please try again.",
+    "network_error": "Network error. Please check your internet connection."
 }
 
-# Configuration des régions tunisiennes
+# Tunisian regions configuration (English)
 TUNISIAN_REGIONS = {
-    "Nord": {
-        "name": "Nord",
+    "North": {
+        "name": "North",
         "cities": ["Tunis", "Bizerte", "Nabeul", "Hammamet", "Sidi Bou Saïd", "Tabarka", "Aïn Draham"],
-        "description": "Région côtière avec plages et montagnes"
+        "description": "Coastal region with beaches and mountains"
     },
-    "Centre": {
-        "name": "Centre", 
+    "Center": {
+        "name": "Center",
         "cities": ["Sousse", "Monastir", "Mahdia", "Sfax", "Kairouan", "Le Kef"],
-        "description": "Région historique et culturelle"
+        "description": "Historical and cultural region"
     },
-    "Sud": {
-        "name": "Sud",
+    "South": {
+        "name": "South",
         "cities": ["Tozeur", "Djerba", "Zarzis", "Gafsa", "Tataouine"],
-        "description": "Région désertique et oasis"
+        "description": "Desert region and oases"
     }
 }
 
-# Configuration des types de voyage
+# Travel types (English keys and content)
 TRAVEL_TYPES = {
-    "culturel": {
-        "name": "Culturel",
-        "description": "Focus sur l'histoire et les monuments",
+    "cultural": {
+        "name": "Cultural",
+        "description": "Focus on history and monuments",
         "destinations": ["Carthage", "Dougga", "El Jem", "Kairouan"]
     },
-    "balnéaire": {
-        "name": "Balnéaire", 
-        "description": "Plages et activités nautiques",
+    "beach": {
+        "name": "Beach",
+        "description": "Beaches and water activities",
         "destinations": ["Hammamet", "Sousse", "Djerba", "Tabarka"]
     },
-    "aventure": {
-        "name": "Aventure",
-        "description": "Désert et activités outdoor",
+    "adventure": {
+        "name": "Adventure",
+        "description": "Desert and outdoor activities",
         "destinations": ["Tozeur", "Tataouine", "Gafsa"]
     },
-    "gastronomique": {
-        "name": "Gastronomique",
-        "description": "Découverte culinaire",
+    "gastronomic": {
+        "name": "Gastronomic",
+        "description": "Culinary discovery",
         "destinations": ["Tunis", "Sfax", "Testour"]
     }
 }
 
-# Configuration des saisons
+# Seasons configuration (English)
 SEASONS = {
-    "printemps": {
-        "name": "Printemps",
+    "spring": {
+        "name": "Spring",
         "months": [3, 4, 5],
-        "description": "Température douce, idéal pour visiter",
-        "festivals": ["Festival de la Médina", "Festival de Nabeul"]
+        "description": "Mild temperatures, ideal for sightseeing",
+        "festivals": ["Medina Festival", "Nabeul Festival"]
     },
-    "ete": {
-        "name": "Été",
+    "summer": {
+        "name": "Summer",
         "months": [6, 7, 8],
-        "description": "Chaud et sec, festivals nombreux",
-        "festivals": ["Festival International de Carthage", "Festival de Jazz de Tabarka"]
+        "description": "Hot and dry, many festivals",
+        "festivals": ["Carthage International Festival", "Tabarka Jazz Festival"]
     },
-    "automne": {
-        "name": "Automne",
+    "autumn": {
+        "name": "Autumn",
         "months": [9, 10, 11],
-        "description": "Température agréable, moins de touristes",
-        "festivals": ["Festival de Testour", "Festival de Sfax"]
+        "description": "Pleasant temperatures, fewer tourists",
+        "festivals": ["Testour Festival", "Sfax Festival"]
     },
-    "hiver": {
-        "name": "Hiver",
+    "winter": {
+        "name": "Winter",
         "months": [12, 1, 2],
-        "description": "Doux sur la côte, froid dans les montagnes",
-        "festivals": ["Festival de Tozeur"]
+        "description": "Mild on the coast, colder in the mountains",
+        "festivals": ["Tozeur Festival"]
     }
 }
 
-# Configuration des budgets
+# Budget levels (English)
 BUDGET_LEVELS = {
-    "economique": {
-        "name": "Économique",
+    "budget": {
+        "name": "Budget",
         "daily_budget": 50,
-        "description": "Hébergement simple, repas locaux",
-        "accommodation": "Auberges, hôtels 2-3 étoiles",
-        "transport": "Bus, trains, location économique"
+        "description": "Simple accommodation, local meals",
+        "accommodation": "Hostels, 2-3 star hotels",
+        "transport": "Buses, trains, economical car rental"
     },
-    "moyen": {
-        "name": "Moyen",
+    "mid": {
+        "name": "Mid",
         "daily_budget": 100,
-        "description": "Hébergement confortable, restaurants variés",
-        "accommodation": "Hôtels 3-4 étoiles",
-        "transport": "Location voiture, taxis"
+        "description": "Comfortable accommodation, varied restaurants",
+        "accommodation": "3-4 star hotels",
+        "transport": "Car rental, taxis"
     },
-    "eleve": {
-        "name": "Élevé",
+    "high": {
+        "name": "High",
         "daily_budget": 200,
-        "description": "Hébergement luxueux, restaurants gastronomiques",
-        "accommodation": "Hôtels 4-5 étoiles, riads",
-        "transport": "Location voiture premium, chauffeur"
+        "description": "Luxury accommodation, fine dining",
+        "accommodation": "4-5 star hotels, riads",
+        "transport": "Premium car rental, chauffeur"
     },
-    "luxe": {
-        "name": "Luxe",
+    "luxury": {
+        "name": "Luxury",
         "daily_budget": 500,
-        "description": "Expérience premium complète",
-        "accommodation": "Hôtels de luxe, villas privées",
-        "transport": "Chauffeur privé, transferts VIP"
+        "description": "Full premium experience",
+        "accommodation": "Luxury hotels, private villas",
+        "transport": "Private driver, VIP transfers"
     }
 }
+
 
 def get_config(section, key=None):
-    """Récupère une configuration"""
+    """Retrieve a configuration section or a specific key"""
     configs = {
         "app": APP_CONFIG,
         "colors": TUNISIAN_COLORS,
@@ -201,22 +202,25 @@ def get_config(section, key=None):
         "seasons": SEASONS,
         "budgets": BUDGET_LEVELS
     }
-    
+
     if section not in configs:
-        raise ValueError(f"Section de configuration '{section}' non trouvée")
-    
+        raise ValueError(f"Configuration section '{section}' not found")
+
     if key:
         return configs[section].get(key)
     return configs[section]
 
+
 def get_api_key():
-    """Récupère la clé API Gemini"""
+    """Get the Gemini API key from the environment"""
     return os.getenv('GEMINI_API_KEY')
 
+
 def is_development():
-    """Vérifie si l'application est en mode développement"""
+    """Return True if running in development mode"""
     return os.getenv('ENVIRONMENT', 'production') == 'development'
 
+
 def get_cache_ttl():
-    """Récupère le TTL du cache"""
-    return PERFORMANCE_CONFIG.get('cache_ttl', 3600) 
+    """Get cache TTL (seconds)"""
+    return PERFORMANCE_CONFIG.get('cache_ttl', 3600)
