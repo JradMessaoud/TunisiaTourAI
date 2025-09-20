@@ -12,6 +12,31 @@ load_dotenv()
 st.session_state["lang"] = "en"
 lang = "en"
 
+# Safe text access function with fallbacks
+def get_text(key, lang="en"):
+    fallbacks = {
+        'welcome': 'Welcome to Tunisia',
+        'intro_title': 'Discover Tunisia with AI',
+        'intro_desc': 'Your intelligent guide to explore the wonders of Tunisia',
+        'features': 'Features',
+        'dest': 'Destinations',
+        'dest_desc': 'Discover the most beautiful places in Tunisia',
+        'mon': 'Monuments',
+        'mon_desc': 'Explore historical and cultural monuments',
+        'fest': 'Festivals',
+        'fest_desc': 'Participate in traditional and modern festivals',
+        'ai': 'AI Assistant',
+        'ai_desc': 'Get personalized recommendations',
+        'cta_title': 'Start the Adventure',
+        'cta': 'Chat with AI',
+        'footer': 'All rights reserved'
+    }
+    
+    try:
+        return TEXTS.get(key, {}).get(lang, fallbacks.get(key, f"Text for {key}"))
+    except:
+        return fallbacks.get(key, f"Text for {key}")
+
 # Page configuration
 st.set_page_config(
     page_title="TunisiaTourAI - Intelligent Guide to Tunisia",
@@ -557,27 +582,41 @@ st.sidebar.success("✅ Google API key configured")
 st.sidebar.info("🔑 API Key: YOUR API KEY")
 
 # Main page
-welcome_text = TEXTS.get('welcome', {}).get(lang, "Welcome to Tunisia")
+welcome_text = get_text('welcome', lang)
 st.markdown(f"## {welcome_text}")
+
 # Introduction
+intro_title = get_text('intro_title', lang)
+intro_desc = get_text('intro_desc', lang)
 st.markdown(f"""
 <div class="stContainer">
-    <h3>{TEXTS['intro_title'][lang]}</h3>
-    <p>{TEXTS['intro_desc'][lang]}</p>
+    <h3>{intro_title}</h3>
+    <p>{intro_desc}</p>
 </div>
 """, unsafe_allow_html=True)
 
 # --- FEATURES SECTION ---
-st.markdown(f"<div class=\"section-title\">{TEXTS['features'][lang]}</div>", unsafe_allow_html=True)
+features_text = get_text('features', lang)
+st.markdown(f"<div class=\"section-title\">{features_text}</div>", unsafe_allow_html=True)
 col1, col2, col3, col4 = st.columns(4)
+
+dest_text = get_text('dest', lang)
+dest_desc_text = get_text('dest_desc', lang)
+mon_text = get_text('mon', lang)
+mon_desc_text = get_text('mon_desc', lang)
+fest_text = get_text('fest', lang)
+fest_desc_text = get_text('fest_desc', lang)
+ai_text = get_text('ai', lang)
+ai_desc_text = get_text('ai_desc', lang)
+
 with col1:
-    st.markdown(f"<div class=\"glass-card\"><h3>{TEXTS['dest'][lang]}</h3><p>{TEXTS['dest_desc'][lang]}</p></div>", unsafe_allow_html=True)
+    st.markdown(f"<div class=\"glass-card\"><h3>{dest_text}</h3><p>{dest_desc_text}</p></div>", unsafe_allow_html=True)
 with col2:
-    st.markdown(f"<div class=\"glass-card\"><h3>{TEXTS['mon'][lang]}</h3><p>{TEXTS['mon_desc'][lang]}</p></div>", unsafe_allow_html=True)
+    st.markdown(f"<div class=\"glass-card\"><h3>{mon_text}</h3><p>{mon_desc_text}</p></div>", unsafe_allow_html=True)
 with col3:
-    st.markdown(f"<div class=\"glass-card\"><h3>{TEXTS['fest'][lang]}</h3><p>{TEXTS['fest_desc'][lang]}</p></div>", unsafe_allow_html=True)
+    st.markdown(f"<div class=\"glass-card\"><h3>{fest_text}</h3><p>{fest_desc_text}</p></div>", unsafe_allow_html=True)
 with col4:
-    st.markdown(f"<div class=\"glass-card\"><h3>{TEXTS['ai'][lang]}</h3><p>{TEXTS['ai_desc'][lang]}</p></div>", unsafe_allow_html=True)
+    st.markdown(f"<div class=\"glass-card\"><h3>{ai_text}</h3><p>{ai_desc_text}</p></div>", unsafe_allow_html=True)
 
 # --- PROCESS SECTION ---
 st.markdown("<div class=\"section-title\">🔄 Our Process</div>", unsafe_allow_html=True)
@@ -604,7 +643,9 @@ with col4:
     st.markdown("<div class=\"advantage-card\"><h4>🔒 Secure</h4><p>Respect for privacy and user data.</p></div>", unsafe_allow_html=True)
 
 # --- CALL TO ACTION SECTION ---
-st.markdown(f"<div class=\"section-title\">{TEXTS['cta_title'][lang]}</div>", unsafe_allow_html=True)
+cta_title = get_text('cta_title', lang)
+cta_text = get_text('cta', lang)
+st.markdown(f"<div class=\"section-title\">{cta_title}</div>", unsafe_allow_html=True)
 st.markdown(f"""
 <div style="text-align:center;">
     <a href="/ChatAvecIA" target="_self" style="
@@ -623,15 +664,16 @@ st.markdown(f"""
         cursor: pointer;
         filter: drop-shadow(0 0 12px #E70013);
     " onmouseover="this.style.background='linear-gradient(90deg, #B3000F 0%, #E70013 100%)';this.style.transform='translateY(-2px) scale(1.03)';" onmouseout="this.style.background='linear-gradient(90deg, #E70013 0%, #B3000F 100%)';this.style.transform='none';">
-        {TEXTS['cta'][lang]}
+        {cta_text}
     </a>
 </div>
 """, unsafe_allow_html=True)
 
 # --- FOOTER ---
+footer_text = get_text('footer', lang)
 st.markdown(f"""
 <div class="footer-modern">
     🇹🇳 TunisiaTourAI &copy; 2024 — Developed with ❤️ by <strong>Jrad Messaoud</strong><br>
-    <span style="font-size:0.95em; opacity:0.7;">{TEXTS['footer'][lang]}</span>
+    <span style="font-size:0.95em; opacity:0.7;">{footer_text}</span>
 </div>
 """, unsafe_allow_html=True)
