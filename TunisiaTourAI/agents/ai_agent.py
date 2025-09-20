@@ -6,145 +6,150 @@ from utils.cache_manager import cached_response, cache_manager
 from utils.logger import get_logger
 
 class AIAgent:
-    
     def __init__(self):
-        """Initialise l'agent IA avec le contexte tunisien"""
-        # Récupérer la clé API depuis les secrets Streamlit (sécurisé)
+        """Initialize the AI agent with Tunisia-specific context (English prompts)."""
+        # Get API key from Streamlit secrets
         self.api_key = st.secrets.get("GEMINI_API_KEY")
-        
-        # Afficher le statut de l'API dans la sidebar
+
+        # Show API status in the sidebar (English)
         if self.api_key:
-            st.sidebar.success("🤖 IA Gemini : ✅ Configurée")
+            st.sidebar.success("🤖 Gemini AI: ✅ Configured")
             genai.configure(api_key=self.api_key)
             self.model = genai.GenerativeModel('gemini-1.5-flash')
             self.is_available = True
         else:
-            st.sidebar.warning("🤖 IA Gemini : ❌ Non configurée")
+            st.sidebar.warning("🤖 Gemini AI: ❌ Not configured")
             self.is_available = False
             self.model = None
-    
-        
-        # Contexte spécifique à la Tunisie
+
+        # English system context specialized for Tunisia
         self.tunisian_context = """
-        Vous êtes TunisiaTourAI, un expert spécialisé dans le tourisme, la culture, l'histoire et les traditions de la Tunisie.
-        
-        Votre rôle :
-        - Répondre UNIQUEMENT aux questions concernant la Tunisie
-        - Fournir des informations précises sur les destinations, monuments, festivals, culture, gastronomie, histoire, traditions
-        - Donner des conseils de voyage pratiques pour la Tunisie
-        - Recommander des itinéraires et activités en Tunisie
-        - Expliquer les coutumes et traditions tunisiennes
-        
-        Si une question ne concerne pas la Tunisie, poliment redirigez vers des sujets tunisiens en disant quelque chose comme :
-        "Je suis spécialisé dans la Tunisie. Puis-je vous aider avec des questions sur les destinations, monuments, festivals ou la culture tunisienne ?"
-        
-        Répondez toujours  de manière détaillée, engageante et informative.
-        Incluez des détails culturels, historiques et pratiques quand c'est pertinent.
+        You are TunisiaTourAI — an expert specialized in tourism, culture, history, and traditions of Tunisia.
+
+        Your role:
+        - ANSWER ONLY questions related to Tunisia.
+        - Provide accurate information about destinations, monuments, festivals, culture, gastronomy, history and traditions.
+        - Give practical travel advice for Tunisia.
+        - Recommend itineraries and activities within Tunisia.
+        - Explain Tunisian customs and traditions.
+
+        If a question is not about Tunisia, politely redirect the user back to Tunisia-related topics, for example:
+        "I specialize in Tunisia. May I help you with questions about Tunisian destinations, monuments, festivals, or culture?"
+
+        Always respond in English in a detailed, engaging, and informative manner.
+        Include cultural, historical and practical details when relevant.
         """
-        
-        # Initialiser le logger
+
+        # Initialize logger
         self.logger = get_logger()
-    
+
     @cached_response
     def ask(self, question, context=None):
-        """Pose une question à l'IA avec le contexte tunisien (avec cache et logs)"""
+        """Ask the model a question with Tunisia context (cached & logged). Returns English text."""
         start_time = time.time()
-        
+
+        if not self.is_available or self.model is None:
+            return "⚠️ Gemini AI is not configured. Please set GEMINI_API_KEY in Streamlit secrets."
+
         try:
-            # Combiner le contexte tunisien avec la question
-            full_prompt = f"{self.tunisian_context}\n\nQuestion: {question}"
-            
+            # Build the prompt in English
             if context:
-                full_prompt = f"{self.tunisian_context}\n\nContexte: {context}\n\nQuestion: {question}"
-            
+                full_prompt = f"{self.tunisian_context}\n\nContext: {context}\n\nQuestion: {question}\n\nPlease respond in English, structured and concise."
+            else:
+                full_prompt = f"{self.tunisian_context}\n\nQuestion: {question}\n\nPlease respond in English, structured and concise."
+
+            # Call the model
             response = self.model.generate_content(full_prompt)
             response_text = response.text
-            
-            # Logger la requête réussie
+
+            # Log successful request
             duration = time.time() - start_time
             self.logger.log_ai_request(question, response_text, duration, True)
-            
+
             return response_text
-            
+
         except Exception as e:
             duration = time.time() - start_time
-            
-            # Logger l'erreur
             self.logger.log_ai_request(question, str(e), duration, False)
-            
-            if "quota" in str(e).lower() or "429" in str(e):
-                return "⚠️ Vous avez dépassé la limite gratuite de l'IA Gemini. Attendez quelques minutes ou créez une nouvelle clé API sur https://aistudio.google.com/app/apikey."
-            return f"Désolé, je rencontre une difficulté technique. Veuillez réessayer. Erreur: {str(e)}"
-    
+
+            err_str = str(e).lower()
+            if "quota" in err_str or "429" in err_str:
+                return ("⚠️ You have exceeded Gemini AI usage limits. "
+                        "Please wait a few minutes or generate a new API key at https://aistudio.google.com/app/apikey.")
+            return f"Sorry, I'm experiencing a technical issue. Please try again later. Error: {str(e)}"
+
     def get_tunisian_recommendation(self, category, preferences=None):
-        """Obtient des recommandations spécifiques à la Tunisie"""
+        """Get Tunisia-specific recommendations (English)."""
+        if not self.is_available or self.model is None:
+            return "⚠️ Gemini AI is not configured."
+
         try:
             prompt = f"""
-            En tant qu'expert de la Tunisie, donnez-moi des recommandations pour la catégorie : {category}
-            
-            Préférences spécifiées : {preferences if preferences else 'Aucune'}
-            
-            Fournissez :
-            1. 3-5 recommandations détaillées
-            2. Pourquoi ces choix sont excellents
-            3. Conseils pratiques pour la visite
-            4. Informations culturelles pertinentes
-            
-            Répondez  de manière structurée et engageante.
+            As a Tunisia expert, provide recommendations for the category: {category}
+
+            Preferences specified: {preferences if preferences else 'None'}
+
+            Provide:
+            1) 3-5 detailed recommendations
+            2) Why these choices are excellent
+            3) Practical tips for visiting
+            4) Relevant cultural information
+
+            Respond in English, structured and engaging.
             """
-            
             response = self.model.generate_content(prompt)
             return response.text
-            
         except Exception as e:
-            return f"Impossible de générer des recommandations pour {category}. Erreur: {str(e)}"
-    
+            return f"Unable to generate recommendations for {category}. Error: {str(e)}"
+
     def plan_tunisian_trip(self, duration, interests, budget, season):
-        """Planifie un voyage en Tunisie personnalisé"""
+        """Plan a personalized Tunisia trip (English)."""
+        if not self.is_available or self.model is None:
+            return "⚠️ Gemini AI is not configured."
+
         try:
             prompt = f"""
-            Créez un itinéraire de voyage personnalisé pour la Tunisie :
-            
-            Durée : {duration} jours
-            Intérêts : {interests}
-            Budget : {budget}
-            Saison : {season}
-            
-            Créez un planning détaillé avec :
-            1. Itinéraire jour par jour
-            2. Lieux à visiter avec explications
-            3. Restaurants recommandés
-            4. Conseils pratiques (transport, hébergement)
-            5. Budget estimé
-            6. Conseils culturels et de sécurité
-            
-            Répondez  de manière structurée et engageante.
+            Create a customized travel itinerary for Tunisia with these parameters:
+
+            Duration: {duration} days
+            Interests: {interests}
+            Budget: {budget}
+            Season: {season}
+
+            Provide:
+            1) Day-by-day schedule with suggested times
+            2) Places to visit with descriptions
+            3) Recommended restaurants
+            4) Practical tips (transport, accommodation)
+            5) Estimated daily budget
+            6) Cultural and safety advice
+
+            Respond in English, structured and engaging.
             """
-            
             response = self.model.generate_content(prompt)
             return response.text
-            
         except Exception as e:
-            return f"Impossible de planifier le voyage. Erreur: {str(e)}"
-    
+            return f"Unable to plan the trip. Error: {str(e)}"
+
     def explain_tunisian_culture(self, topic):
-        """Explique un aspect de la culture tunisienne"""
+        """Explain an aspect of Tunisian culture (English)."""
+        if not self.is_available or self.model is None:
+            return "⚠️ Gemini AI is not configured."
+
         try:
             prompt = f"""
-            Expliquez en détail l'aspect culturel tunisien suivant : {topic}
-            
-            Incluez :
-            1. Contexte historique
-            2. Importance culturelle
-            3. Traditions actuelles
-            4. Conseils pour les visiteurs
-            5. Anecdotes intéressantes
-            
-            Répondez  de manière engageante et informative.
+            Explain in detail the following Tunisian cultural topic: {topic}
+
+            Include:
+            1) Historical context
+            2) Cultural significance
+            3) Current traditions
+            4) Visitor tips
+            5) Interesting anecdotes
+
+            Respond in English, engaging and informative.
             """
-            
             response = self.model.generate_content(prompt)
             return response.text
-            
         except Exception as e:
-            return f"Impossible d'expliquer {topic}. Erreur: {str(e)}" 
+            return f"Unable to explain {topic}. Error: {str(e)}"
