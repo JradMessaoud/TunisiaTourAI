@@ -5,22 +5,22 @@ from dotenv import load_dotenv
 import base64
 from utils.i18n import TEXTS
 
-# Charger les variables d'environnement
+# Load environment variables
 load_dotenv()
 
-# --- GESTION MONOLINGUE FRANÇAIS ---
-st.session_state["lang"] = "fr"
-lang = "fr"
+# --- MONOLINGUAL ENGLISH MANAGEMENT ---
+st.session_state["lang"] = "en"
+lang = "en"
 
-# Configuration de la page
+# Page configuration
 st.set_page_config(
-    page_title="TunisiaTourAI - Guide Intelligent de la Tunisie",
+    page_title="TunisiaTourAI - Intelligent Guide to Tunisia",
     page_icon="🇹🇳",
     layout="wide",
-    initial_sidebar_state="collapsed"  # Fermé par défaut sur mobile
+    initial_sidebar_state="collapsed"  # Closed by default on mobile
 )
 
-# --- CSS MODERNE ET RESPONSIVE ---
+# --- MODERN AND RESPONSIVE CSS ---
 st.markdown("""
 <style>
 body, .stApp {
@@ -28,13 +28,13 @@ body, .stApp {
     color: #fff !important;
 }
 
-/* DÉTECTION MOBILE */
+/* MOBILE DETECTION */
 @media (max-width: 768px) {
     .stApp {
         padding: 0.5rem !important;
     }
     
-    /* Correction des modals superposés */
+    /* Overlay modal correction */
     .stModal {
         position: fixed !important;
         top: 50% !important;
@@ -54,42 +54,42 @@ body, .stApp {
         max-height: 70vh !important;
     }
     
-    /* Boutons tactiles */
+    /* Touch buttons */
     .stButton > button {
         width: 100% !important;
-        height: 44px !important;  /* Taille minimale tactile */
+        height: 44px !important;  /* Minimum touch size */
         margin: 5px 0 !important;
-        font-size: 16px !important;  /* Évite le zoom sur iOS */
+        font-size: 16px !important;  /* Prevents iOS zoom */
         border-radius: 22px !important;
     }
     
-    /* Cards responsives */
+    /* Responsive cards */
     .glass-card {
         margin: 10px 0 !important;
         padding: 15px !important;
         border-radius: 12px !important;
     }
     
-    /* Images responsives */
+    /* Responsive images */
     .stImage > img {
         width: 100% !important;
         height: auto !important;
         border-radius: 10px !important;
     }
     
-    /* Sidebar mobile */
+    /* Mobile sidebar */
     .css-1d391kg {
         width: 100% !important;
         max-width: 100% !important;
     }
     
-    /* Navigation mobile */
+    /* Mobile navigation */
     .main .block-container {
         padding: 0.5rem !important;
     }
 }
 
-/* HEADER RESPONSIVE FIX FINAL */
+/* FINAL RESPONSIVE HEADER FIX */
 .main-header-modern {
     width: 100vw !important;
     max-width: 100vw !important;
@@ -173,7 +173,7 @@ body, .stApp {
     text-shadow: 0 1px 4px #B3000F;
 }
 
-/* SECTION RESPONSIVE */
+/* RESPONSIVE SECTION */
 .section-title {
     color: #fff;
     font-size: 2rem;
@@ -205,7 +205,7 @@ body, .stApp {
     }
 }
 
-/* CARDS RESPONSIVE */
+/* RESPONSIVE CARDS */
 .glass-card {
     background: rgba(255,255,255,0.08);
     border-radius: 18px;
@@ -259,7 +259,7 @@ body, .stApp {
     }
 }
 
-/* BUTTONS RESPONSIVE */
+/* RESPONSIVE BUTTONS */
 .cta-btn {
     background: linear-gradient(90deg, #E70013 0%, #B3000F 100%);
     color: #fff;
@@ -290,7 +290,7 @@ body, .stApp {
     transform: translateY(-2px) scale(1.03);
 }
 
-/* PROCESS CARDS RESPONSIVE */
+/* RESPONSIVE PROCESS CARDS */
 .process-card {
     background: rgba(255,255,255,0.06);
     border-radius: 14px;
@@ -322,7 +322,7 @@ body, .stApp {
     }
 }
 
-/* ADVANTAGES RESPONSIVE */
+/* RESPONSIVE ADVANTAGES */
 .advantage-card {
     background: rgba(255,255,255,0.07);
     border-radius: 14px;
@@ -364,7 +364,7 @@ body, .stApp {
     }
 }
 
-/* FOOTER RESPONSIVE */
+/* RESPONSIVE FOOTER */
 .footer-modern {
     background: #18191A;
     color: #fff;
@@ -397,7 +397,7 @@ body, .stApp {
     }
 }
 
-/* GRILLE RESPONSIVE */
+/* RESPONSIVE GRID */
 @media (max-width: 768px) {
     .stColumns {
         flex-direction: column !important;
@@ -409,7 +409,7 @@ body, .stApp {
     }
 }
 
-/* SIDEBAR RESPONSIVE */
+/* RESPONSIVE SIDEBAR */
 @media (max-width: 768px) {
     .css-1d391kg {
         background: linear-gradient(180deg, #1a1a1a 0%, #2a2a2a 100%) !important;
@@ -421,10 +421,10 @@ body, .stApp {
     }
 }
 
-/* ANIMATIONS MOBILE */
+/* MOBILE ANIMATIONS */
 @media (max-width: 768px) {
     .glass-card:hover {
-        transform: none !important;  /* Désactiver les animations sur mobile */
+        transform: none !important;  /* Disable animations on mobile */
     }
     
     .cta-btn:hover {
@@ -432,21 +432,21 @@ body, .stApp {
     }
 }
 
-/* ACCESSIBILITÉ MOBILE */
+/* MOBILE ACCESSIBILITY */
 @media (max-width: 768px) {
-    /* Taille minimale pour les éléments tactiles */
+    /* Minimum size for touch elements */
     .stButton > button,
     .stSelectbox > div,
     .stTextInput > div {
         min-height: 44px !important;
     }
     
-    /* Espacement pour éviter les clics accidentels */
+    /* Spacing to prevent accidental clicks */
     .stButton > button {
         margin: 8px 0 !important;
     }
     
-    /* Focus visible */
+    /* Visible focus */
     .stButton > button:focus,
     .stSelectbox > div:focus,
     .stTextInput > div:focus {
@@ -522,41 +522,41 @@ logo_path = os.path.join("images", "logo tunisiaAI.png")
 logo_base64 = get_base64_image(logo_path) if os.path.exists(logo_path) else None
 logo_html = f'<img src="data:image/png;base64,{logo_base64}" alt="TunisiaTourAI Logo" style="height:90px; border-radius:18px; box-shadow:0 2px 12px rgba(0,0,0,0.12); background:#fff;" />' if logo_base64 else '<div style="width:90px;height:90px;background:#fff;border-radius:18px;"></div>'
 
-# --- HEADER PRINCIPAL ---
+# --- MAIN HEADER ---
 st.markdown(f"""
 <div class="main-header-container">
     {logo_html}
     <div class="header-content">
         <h1>TN<br>TunisiaTourAI</h1>
-        <p>Votre guide intelligent pour découvrir la beauté et la richesse de la Tunisie</p>
+        <p>Your intelligent guide to discover the beauty and richness of Tunisia</p>
     </div>
 </div>
 """, unsafe_allow_html=True)
 
-# Sidebar avec navigation
+# Sidebar with navigation
 st.sidebar.markdown("## 🧭 Navigation")
 st.sidebar.markdown("---")
 
-# Statistiques dans la sidebar
-st.sidebar.markdown("### 📊 Statistiques")
-st.sidebar.markdown("**🏖️ Destinations :** 15 lieux")
-st.sidebar.markdown("**🗿 Monuments :** 18 sites")
-st.sidebar.markdown("**🎉 Festivals :** 19 événements")
+# Statistics in sidebar
+st.sidebar.markdown("### 📊 Statistics")
+st.sidebar.markdown("**🏖️ Destinations:** 15 places")
+st.sidebar.markdown("**🗿 Monuments:** 18 sites")
+st.sidebar.markdown("**🎉 Festivals:** 19 events")
 
-# Informations pratiques
+# Practical information
 st.sidebar.markdown("---")
-st.sidebar.markdown("### ℹ️ Informations")
-st.sidebar.markdown("**🌍 Langue :** Français")
-st.sidebar.markdown("**💰 Devise :** Dinar tunisien")
-st.sidebar.markdown("**⏰ Fuseau :** UTC+1")
+st.sidebar.markdown("### ℹ️ Information")
+st.sidebar.markdown("**🌍 Language:** English")
+st.sidebar.markdown("**💰 Currency:** Tunisian Dinar")
+st.sidebar.markdown("**⏰ Timezone:** UTC+1")
 
-# Debug de la clé API
+# API key debug
 st.sidebar.markdown("---")
-st.sidebar.markdown("### 🔧 Debug API Key")
-st.sidebar.success("✅ Google API key configurée")
-st.sidebar.info("🔑 Clé API : YOUR API KEY")
+st.sidebar.markdown("### 🔧 API Key Debug")
+st.sidebar.success("✅ Google API key configured")
+st.sidebar.info("🔑 API Key: YOUR API KEY")
 
-# Page principale
+# Main page
 st.markdown(f"## {TEXTS['welcome'][lang]}")
 
 # Introduction
@@ -567,7 +567,7 @@ st.markdown(f"""
 </div>
 """, unsafe_allow_html=True)
 
-# --- SECTION FONCTIONNALITÉS ---
+# --- FEATURES SECTION ---
 st.markdown(f"<div class=\"section-title\">{TEXTS['features'][lang]}</div>", unsafe_allow_html=True)
 col1, col2, col3, col4 = st.columns(4)
 with col1:
@@ -579,31 +579,31 @@ with col3:
 with col4:
     st.markdown(f"<div class=\"glass-card\"><h3>{TEXTS['ai'][lang]}</h3><p>{TEXTS['ai_desc'][lang]}</p></div>", unsafe_allow_html=True)
 
-# --- SECTION PROCESSUS ---
-st.markdown("<div class=\"section-title\">🔄 Notre Processus</div>", unsafe_allow_html=True)
+# --- PROCESS SECTION ---
+st.markdown("<div class=\"section-title\">🔄 Our Process</div>", unsafe_allow_html=True)
 col1, col2, col3, col4 = st.columns(4)
 with col1:
-    st.markdown("<div class=\"process-card\"><h4>1. Découvrir</h4><p>Parcourez les destinations, monuments et festivals tunisiens.</p></div>", unsafe_allow_html=True)
+    st.markdown("<div class=\"process-card\"><h4>1. Discover</h4><p>Explore Tunisian destinations, monuments, and festivals.</p></div>", unsafe_allow_html=True)
 with col2:
-    st.markdown("<div class=\"process-card\"><h4>2. Planifier</h4><p>Créez votre itinéraire personnalisé avec l'IA.</p></div>", unsafe_allow_html=True)
+    st.markdown("<div class=\"process-card\"><h4>2. Plan</h4><p>Create your personalized itinerary with AI.</p></div>", unsafe_allow_html=True)
 with col3:
-    st.markdown("<div class=\"process-card\"><h4>3. Explorer</h4><p>Profitez de conseils pratiques et d'astuces locales.</p></div>", unsafe_allow_html=True)
+    st.markdown("<div class=\"process-card\"><h4>3. Explore</h4><p>Enjoy practical advice and local tips.</p></div>", unsafe_allow_html=True)
 with col4:
-    st.markdown("<div class=\"process-card\"><h4>4. Discuter</h4><p>Interagissez avec l'IA pour des recommandations en temps réel.</p></div>", unsafe_allow_html=True)
+    st.markdown("<div class=\"process-card\"><h4>4. Chat</h4><p>Interact with AI for real-time recommendations.</p></div>", unsafe_allow_html=True)
 
-# --- SECTION AVANTAGES ---
-st.markdown("<div class=\"section-title\">🚀 Pourquoi choisir TunisiaTourAI ?</div>", unsafe_allow_html=True)
+# --- ADVANTAGES SECTION ---
+st.markdown("<div class=\"section-title\">🚀 Why choose TunisiaTourAI?</div>", unsafe_allow_html=True)
 col1, col2, col3, col4 = st.columns(4)
 with col1:
-    st.markdown("<div class=\"advantage-card\"><h4>🇹🇳 100% Tunisie</h4><p>Une IA spécialisée sur la Tunisie, ses régions, sa culture et ses événements.</p></div>", unsafe_allow_html=True)
+    st.markdown("<div class=\"advantage-card\"><h4>🇹🇳 100% Tunisia</h4><p>An AI specialized in Tunisia, its regions, culture, and events.</p></div>", unsafe_allow_html=True)
 with col2:
-    st.markdown("<div class=\"advantage-card\"><h4>💡 IA Moderne</h4><p>Propulsée par Gemini 2.5 Pro, rapide et précise.</p></div>", unsafe_allow_html=True)
+    st.markdown("<div class=\"advantage-card\"><h4>💡 Modern AI</h4><p>Powered by Gemini 2.5 Pro, fast and accurate.</p></div>", unsafe_allow_html=True)
 with col3:
-    st.markdown("<div class=\"advantage-card\"><h4>📱 Responsive</h4><p>Une expérience fluide sur mobile, tablette et desktop.</p></div>", unsafe_allow_html=True)
+    st.markdown("<div class=\"advantage-card\"><h4>📱 Responsive</h4><p>A smooth experience on mobile, tablet, and desktop.</p></div>", unsafe_allow_html=True)
 with col4:
-    st.markdown("<div class=\"advantage-card\"><h4>🔒 Sécurisé</h4><p>Respect de la vie privée et des données utilisateurs.</p></div>", unsafe_allow_html=True)
+    st.markdown("<div class=\"advantage-card\"><h4>🔒 Secure</h4><p>Respect for privacy and user data.</p></div>", unsafe_allow_html=True)
 
-# --- SECTION CALL TO ACTION ---
+# --- CALL TO ACTION SECTION ---
 st.markdown(f"<div class=\"section-title\">{TEXTS['cta_title'][lang]}</div>", unsafe_allow_html=True)
 st.markdown(f"""
 <div style="text-align:center;">
@@ -631,7 +631,7 @@ st.markdown(f"""
 # --- FOOTER ---
 st.markdown(f"""
 <div class="footer-modern">
-    🇹🇳 TunisiaTourAI &copy; 2024 — Développé avec ❤️ par <strong>Jrad Messaoud</strong><br>
+    🇹🇳 TunisiaTourAI &copy; 2024 — Developed with ❤️ by <strong>Jrad Messaoud</strong><br>
     <span style="font-size:0.95em; opacity:0.7;">{TEXTS['footer'][lang]}</span>
 </div>
 """, unsafe_allow_html=True)
