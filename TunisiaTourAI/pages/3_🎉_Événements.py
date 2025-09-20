@@ -1,251 +1,291 @@
 import streamlit as st
 import os
 from agents.ai_agent import AIAgent
-from utils.translate import translate_text
 from utils.favorites_manager import add_to_favorites_button
+from utils.mobile_utils import get_responsive_columns, responsive_image_display, optimize_for_mobile
 
-st.session_state["lang"] = "fr"
-lang = "fr"
+# Mobile optimizations
+optimize_for_mobile()
+
+# Language / texts
+st.session_state["lang"] = "en"
+lang = "en"
 TEXTS = st.session_state.get('TEXTS', {})
 
-st.title("🎉 Événements et festivals traditionnels")
+# Cached labels / fallbacks
+title_text = TEXTS.get('fest_title', {}).get(lang, '🎉 Traditional Events & Festivals')
+type_label = TEXTS.get('type_label', {}).get(lang, 'Type')
+city_label = TEXTS.get('city_label', {}).get(lang, 'City')
+all_label = TEXTS.get('all_label', {}).get(lang, 'All')
+img_not_found_text = TEXTS.get('img_not_found', {}).get(lang, 'Image not found')
+no_event_text = TEXTS.get('no_event', {}).get(lang, 'No events found for these criteria.')
+ai_desc_label = TEXTS.get('ai_desc', {}).get(lang, 'AI description for')
+ai_desc_loading = TEXTS.get('ai_desc_loading', {}).get(lang, 'Generating AI description...')
+stats_label = TEXTS.get('stats', {}).get(lang, 'Statistics')
+total_label = TEXTS.get('total', {}).get(lang, 'Total')
+shown_label = TEXTS.get('shown', {}).get(lang, 'Shown')
+events_label = TEXTS.get('events', {}).get(lang, 'events')
+recommend_label = TEXTS.get('recommend_label', {}).get(lang, 'Festival not to miss')
+ai_recommend_loading = TEXTS.get('ai_recommend_loading', {}).get(lang, 'Generating recommendation...')
 
-# Mapping des festivals vers les VRAIES images de festivals
+st.title(title_text)
+
+# Mapping festivals to local image filenames
 FESTIVAL_IMAGES = {
-    "Festival International de Carthage": "festivzl de Carthage.jpg",
-    "Festival des Ksour": "festival de ksour.jpg",
-    "Festival de la Médina": "festival l medina tunis.jpg",
-    "Festival de Jazz de Tabarka": "festival de tabarka.jpeg",
-    "Festival de Sousse": "festival sousse.png",
-    "Festival de Hammamet": "festival hammamet.jpg",
-    "Festival de Djerba": "festival ulysse djerba.jpg",
-    "Festival de Testour": "festival testour.jpg",
-    "Festival de Tozeur": "festival-oasis-tozeur.jpg",
-    "Festival de Kairouan": "festival de kairaoun.jpg",
-    "Festival de Monastir": "Festival de Monastir.jpg",
-    "Festival de Nabeul": "festival-de nabeul.jpg",
-    "Festival de Bizerte": "Festival-de-Bizerte.-049.jpg",
-    "Festival de Mahdia": "nuits de mahdia festival.jpg",
-    "Festival de Sfax": "festival sfax.jpg",
-    "Festival de Gafsa": "festival de gafsa.jpg",
-    "Festival de Le Kef": "sicca jazz el kef.png",
-    "Festival de Zarzis": "festival des sponges zarzis.jpg",
-    "Festival de Aïn Draham": "cinemontagnes ain drahem.jpg"
+    "Carthage International Festival": "festivzl de Carthage.jpg",
+    "Ksour Festival": "festival de ksour.jpg",
+    "Medina Festival": "festival l medina tunis.jpg",
+    "Tabarka Jazz Festival": "festival de tabarka.jpeg",
+    "Sousse Festival": "festival sousse.png",
+    "Hammamet Festival": "festival hammamet.jpg",
+    "Djerba Festival": "festival ulysse djerba.jpg",
+    "Testour Festival": "festival testour.jpg",
+    "Tozeur Festival": "festival-oasis-tozeur.jpg",
+    "Kairouan Festival": "festival de kairaoun.jpg",
+    "Monastir Festival": "Festival de Monastir.jpg",
+    "Nabeul Festival": "festival-de nabeul.jpg",
+    "Bizerte Festival": "Festival-de-Bizerte.-049.jpg",
+    "Mahdia Festival": "nuits de mahdia festival.jpg",
+    "Sfax Festival": "festival sfax.jpg",
+    "Gafsa Festival": "festival de gafsa.jpg",
+    "Le Kef Festival": "sicca jazz el kef.png",
+    "Zarzis Festival": "festival des sponges zarzis.jpg",
+    "Ain Draham Festival": "cinemontagnes ain drahem.jpg"
 }
 
-# Données enrichies d'événements
-EVENEMENTS = [
+# Festivals data (English keys and descriptions)
+FESTIVALS = [
     {
-        "nom": "Festival International de Carthage",
+        "name": "Carthage International Festival",
         "type": "Festival",
-        "ville": "Carthage",
-        "image": FESTIVAL_IMAGES["Festival International de Carthage"],
-        "description": "Festival de musique et arts du spectacle dans l'amphithéâtre de Carthage. Artistes internationaux et locaux dans un cadre historique unique.",
-        "periode": "Juillet-Août"
+        "city": "Carthage",
+        "image": FESTIVAL_IMAGES["Carthage International Festival"],
+        "description": "Music and performing arts festival held in the Roman amphitheatre of Carthage. Features international and local artists in a unique historic setting.",
+        "period": "July-August"
     },
     {
-        "nom": "Festival des Ksour",
+        "name": "Ksour Festival",
         "type": "Festival",
-        "ville": "Tataouine",
-        "image": FESTIVAL_IMAGES["Festival des Ksour"],
-        "description": "Festival culturel dans les villages berbères du sud. Traditions, musique et artisanat local dans les ksour traditionnels.",
-        "periode": "Mars"
+        "city": "Tataouine",
+        "image": FESTIVAL_IMAGES["Ksour Festival"],
+        "description": "Cultural festival in the Berber villages of the south celebrating traditions, music and local crafts among historic ksour.",
+        "period": "March"
     },
     {
-        "nom": "Festival de la Médina",
+        "name": "Medina Festival",
         "type": "Festival",
-        "ville": "Tunis",
-        "image": FESTIVAL_IMAGES["Festival de la Médina"],
-        "description": "Festival des arts traditionnels dans la médina de Tunis. Musique, danse et artisanat dans les ruelles historiques.",
-        "periode": "Avril"
+        "city": "Tunis",
+        "image": FESTIVAL_IMAGES["Medina Festival"],
+        "description": "Arts festival in the old medina of Tunis showcasing traditional music, dance and crafts in historic lanes.",
+        "period": "April"
     },
     {
-        "nom": "Festival de Jazz de Tabarka",
-        "type": "Musique",
-        "ville": "Tabarka",
-        "image": FESTIVAL_IMAGES["Festival de Jazz de Tabarka"],
-        "description": "Festival de jazz international dans un cadre idyllique. Musiciens du monde entier dans un environnement naturel exceptionnel.",
-        "periode": "Juillet"
+        "name": "Tabarka Jazz Festival",
+        "type": "Music",
+        "city": "Tabarka",
+        "image": FESTIVAL_IMAGES["Tabarka Jazz Festival"],
+        "description": "International jazz festival set in a stunning natural landscape, attracting musicians from around the world.",
+        "period": "July"
     },
     {
-        "nom": "Festival de Sousse",
+        "name": "Sousse Festival",
         "type": "Festival",
-        "ville": "Sousse",
-        "image": FESTIVAL_IMAGES["Festival de Sousse"],
-        "description": "Festival des arts et de la culture dans la médina de Sousse. Spectacles et expositions dans un cadre historique préservé.",
-        "periode": "Août"
+        "city": "Sousse",
+        "image": FESTIVAL_IMAGES["Sousse Festival"],
+        "description": "Arts and culture festival in Sousse's medina with performances and exhibitions in a well-preserved historic setting.",
+        "period": "August"
     },
     {
-        "nom": "Festival de Hammamet",
+        "name": "Hammamet Festival",
         "type": "Festival",
-        "ville": "Hammamet",
-        "image": FESTIVAL_IMAGES["Festival de Hammamet"],
-        "description": "Festival international de théâtre et arts du spectacle. Performances dans le théâtre en plein air avec vue sur la mer.",
-        "periode": "Juillet"
+        "city": "Hammamet",
+        "image": FESTIVAL_IMAGES["Hammamet Festival"],
+        "description": "International theatre and performing arts festival held in open-air venues with views over the sea.",
+        "period": "July"
     },
     {
-        "nom": "Festival de Djerba",
+        "name": "Djerba Festival",
         "type": "Festival",
-        "ville": "Djerba",
-        "image": FESTIVAL_IMAGES["Festival de Djerba"],
-        "description": "Festival des traditions insulaires. Musique, danse et gastronomie locale dans l'île aux mille couleurs.",
-        "periode": "Juin"
+        "city": "Djerba",
+        "image": FESTIVAL_IMAGES["Djerba Festival"],
+        "description": "Island traditions festival highlighting music, dance and local gastronomy in a colorful island atmosphere.",
+        "period": "June"
     },
     {
-        "nom": "Festival de Testour",
-        "type": "Gastronomie",
-        "ville": "Testour",
-        "image": FESTIVAL_IMAGES["Festival de Testour"],
-        "description": "Festival de la gastronomie andalouse. Traditions culinaires espagnoles en Tunisie avec influences morisques.",
-        "periode": "Septembre"
+        "name": "Testour Gastronomy Festival",
+        "type": "Gastronomy",
+        "city": "Testour",
+        "image": FESTIVAL_IMAGES["Testour Festival"],
+        "description": "Festival celebrating Andalusian culinary traditions and the Morisco heritage in local cuisine.",
+        "period": "September"
     },
     {
-        "nom": "Festival de Tozeur",
+        "name": "Tozeur Oasis Festival",
         "type": "Festival",
-        "ville": "Tozeur",
-        "image": FESTIVAL_IMAGES["Festival de Tozeur"],
-        "description": "Festival des oasis et du désert. Traditions sahariennes et artisanat local dans la porte du Sahara.",
-        "periode": "Décembre"
+        "city": "Tozeur",
+        "image": FESTIVAL_IMAGES["Tozeur Festival"],
+        "description": "Oasis and desert festival that celebrates Saharan traditions and local craftsmanship at the gateway to the Sahara.",
+        "period": "December"
     },
     {
-        "nom": "Festival de Kairouan",
-        "type": "Religieux",
-        "ville": "Kairouan",
-        "image": FESTIVAL_IMAGES["Festival de Kairouan"],
-        "description": "Festival religieux et culturel. Cérémonies spirituelles et musique sacrée dans la ville sainte de l'Islam.",
-        "periode": "Avril"
+        "name": "Kairouan Religious Festival",
+        "type": "Religious",
+        "city": "Kairouan",
+        "image": FESTIVAL_IMAGES["Kairouan Festival"],
+        "description": "Religious and cultural ceremonies with spiritual music and rituals in one of Tunisia's holiest cities.",
+        "period": "April"
     },
     {
-        "nom": "Festival de Monastir",
+        "name": "Monastir Festival",
         "type": "Festival",
-        "ville": "Monastir",
-        "image": FESTIVAL_IMAGES["Festival de Monastir"],
-        "description": "Festival des arts et de la culture. Spectacles dans le ribat historique avec vue panoramique sur la mer.",
-        "periode": "Août"
+        "city": "Monastir",
+        "image": FESTIVAL_IMAGES["Monastir Festival"],
+        "description": "Arts and culture events held within the historic ribat overlooking the sea.",
+        "period": "August"
     },
     {
-        "nom": "Festival de Nabeul",
-        "type": "Artisanat",
-        "ville": "Nabeul",
-        "image": FESTIVAL_IMAGES["Festival de Nabeul"],
-        "description": "Festival de la poterie et de l'artisanat. Démonstrations et ventes d'artisanat local dans la capitale de la poterie.",
-        "periode": "Mai"
+        "name": "Nabeul Pottery Festival",
+        "type": "Crafts",
+        "city": "Nabeul",
+        "image": FESTIVAL_IMAGES["Nabeul Festival"],
+        "description": "Festival dedicated to pottery and local crafts with demonstrations and marketplace sales in the pottery capital.",
+        "period": "May"
     },
     {
-        "nom": "Festival de Bizerte",
+        "name": "Bizerte Maritime Festival",
         "type": "Festival",
-        "ville": "Bizerte",
-        "image": FESTIVAL_IMAGES["Festival de Bizerte"],
-        "description": "Festival maritime et culturel. Traditions portuaires et spectacles nautiques dans la plus ancienne ville de Tunisie.",
-        "periode": "Juillet"
+        "city": "Bizerte",
+        "image": FESTIVAL_IMAGES["Bizerte Festival"],
+        "description": "Maritime and cultural festival featuring port traditions and nautical performances in Tunisia's oldest city.",
+        "period": "July"
     },
     {
-        "nom": "Festival de Mahdia",
+        "name": "Mahdia Nights Festival",
         "type": "Festival",
-        "ville": "Mahdia",
-        "image": FESTIVAL_IMAGES["Festival de Mahdia"],
-        "description": "Festival des arts et de la culture. Spectacles dans la médina fortifiée sur la péninsule historique.",
-        "periode": "Août"
+        "city": "Mahdia",
+        "image": FESTIVAL_IMAGES["Mahdia Festival"],
+        "description": "Cultural nights and performances in the fortified medina on the historic peninsula.",
+        "period": "August"
     },
     {
-        "nom": "Festival de Sfax",
+        "name": "Sfax Festival",
         "type": "Festival",
-        "ville": "Sfax",
-        "image": FESTIVAL_IMAGES["Festival de Sfax"],
-        "description": "Festival international de la médina. Arts traditionnels et modernes dans la plus grande médina d'Afrique du Nord.",
-        "periode": "Septembre"
+        "city": "Sfax",
+        "image": FESTIVAL_IMAGES["Sfax Festival"],
+        "description": "International medina festival blending traditional and contemporary arts in North Africa's largest medina.",
+        "period": "September"
     },
     {
-        "nom": "Festival de Gafsa",
+        "name": "Gafsa Oasis Festival",
         "type": "Festival",
-        "ville": "Gafsa",
-        "image": FESTIVAL_IMAGES["Festival de Gafsa"],
-        "description": "Festival des oasis et de la culture saharienne. Traditions du sud tunisien dans l'oasis historique.",
-        "periode": "Novembre"
+        "city": "Gafsa",
+        "image": FESTIVAL_IMAGES["Gafsa Festival"],
+        "description": "Festival celebrating oasis culture and Saharan traditions in a historic oasis town.",
+        "period": "November"
     },
     {
-        "nom": "Festival de Le Kef",
+        "name": "Le Kef Mountain Festival",
         "type": "Festival",
-        "ville": "Le Kef",
-        "image": FESTIVAL_IMAGES["Festival de Le Kef"],
-        "description": "Festival de montagne et de culture berbère. Traditions montagnardes et musique locale dans la citadelle historique.",
-        "periode": "Juin"
+        "city": "Le Kef",
+        "image": FESTIVAL_IMAGES["Le Kef Festival"],
+        "description": "Mountain and Berber culture festival featuring local music and traditions within the historic citadel.",
+        "period": "June"
     },
     {
-        "nom": "Festival de Zarzis",
+        "name": "Zarzis Southern Festival",
         "type": "Festival",
-        "ville": "Zarzis",
-        "image": FESTIVAL_IMAGES["Festival de Zarzis"],
-        "description": "Festival du sud et des traditions sahariennes. Musique et artisanat local dans la station balnéaire du sud.",
-        "periode": "Octobre"
+        "city": "Zarzis",
+        "image": FESTIVAL_IMAGES["Zarzis Festival"],
+        "description": "Southern traditions festival with music and local crafts in the southern seaside resort.",
+        "period": "October"
     },
     {
-        "nom": "Festival de Aïn Draham",
+        "name": "Ain Draham Mountain & Eco Festival",
         "type": "Festival",
-        "ville": "Aïn Draham",
-        "image": FESTIVAL_IMAGES["Festival de Aïn Draham"],
-        "description": "Festival de montagne et d'écotourisme. Randonnées et traditions montagnardes dans les forêts du nord.",
-        "periode": "Mai"
+        "city": "Ain Draham",
+        "image": FESTIVAL_IMAGES["Ain Draham Festival"],
+        "description": "Mountain and ecotourism festival with hiking and local mountain traditions in the northern forests.",
+        "period": "May"
     }
 ]
 
-# Filtres dynamiques
-types = ["Tous"] + sorted(list(set(e["type"] for e in EVENEMENTS)))
-villes = ["Toutes"] + sorted(list(set(e["ville"] for e in EVENEMENTS)))
-type_event = st.selectbox("Type d'événement", types)
-ville = st.selectbox("Ville", villes)
+# Instantiate AI agent early
+ai = AIAgent()
 
-# Filtrage
-filtered = [e for e in EVENEMENTS if (type_event == "Tous" or e["type"] == type_event) and (ville == "Toutes" or e["ville"] == ville)]
+# Dynamic filters
+types = [all_label] + sorted(list({f['type'] for f in FESTIVALS}))
+cities = [all_label] + sorted(list({f['city'] for f in FESTIVALS}))
+selected_type = st.selectbox(type_label, types)
+selected_city = st.selectbox(city_label, cities)
+
+# Filtering
+filtered = [f for f in FESTIVALS if (selected_type == all_label or f['type'] == selected_type) and (selected_city == all_label or f['city'] == selected_city)]
 
 if not filtered:
-    st.warning("Aucun événement trouvé pour ces critères.")
+    st.warning(no_event_text)
 else:
-    ai = AIAgent()
-    
-    # Affichage en grille
-    cols = st.columns(2)
+    cols_per_row = get_responsive_columns()
+    try:
+        cols_per_row = max(1, int(cols_per_row))
+    except Exception:
+        cols_per_row = 2
+
+    cols = st.columns(cols_per_row)
+
     for i, event in enumerate(filtered):
-        with cols[i % 2]:
+        with cols[i % cols_per_row]:
             with st.container():
-                # Utiliser l'image locale
-                image_path = os.path.join("images", event["image"])
-                if os.path.exists(image_path):
-                    st.image(image_path, use_container_width=True, caption=event["nom"])
+                image_path = os.path.join("images", event.get('image', ''))
+                if image_path and os.path.exists(image_path):
+                    # use responsive display if available
+                    try:
+                        responsive_image_display(image_path, event['name'])
+                    except Exception:
+                        st.image(image_path, use_column_width=True, caption=event['name'])
                 else:
-                    st.error(f"Image non trouvée: {event['image']}")
-                
-                st.subheader(event["nom"])
-                st.markdown(f"**Type :** {event['type']}  ")
-                st.markdown(f"**Ville :** {event['ville']}  ")
-                st.markdown(f"**Période :** {event['periode']}  ")
-                st.write(event["description"])
-                # Ajout du bouton favoris
+                    st.error(f"{img_not_found_text}: {event.get('image')}")
+
+                st.subheader(event['name'])
+                st.markdown(f"**{type_label} :** {event['type']}  ")
+                st.markdown(f"**{city_label} :** {event['city']}  ")
+                st.markdown(f"**Period :** {event['period']}  ")
+                st.write(event['description'])
+
+                # Favorites button
                 item = {
-                    "id": event["nom"],
-                    "name": event["nom"],
-                    "description": event["description"],
-                    "location": event["ville"],
-                    "type": event["type"]
+                    'id': event['name'],
+                    'name': event['name'],
+                    'description': event['description'],
+                    'location': event['city'],
+                    'type': event['type']
                 }
-                add_to_favorites_button("festivals", item, f"fav_{event['nom']}")
-                
-                # Bouton pour description IA
-                if st.button(f"🧠 Description IA sur {event['nom']}", key=f"description_{event['nom']}"):
-                    with st.spinner("Génération de la description IA..."):
-                        description = ai.ask(f"Décris-moi en détail l'événement tunisien suivant : {event['nom']}. Inclus l'histoire, l'importance culturelle, les activités proposées et l'ambiance. Fais-le en 5-6 phrases maximum.")
+                add_to_favorites_button('festivals', item, f"fav_{event['name']}")
+
+                # AI description button
+                if st.button(f"🧠 {ai_desc_label} {event['name']}", key=f"desc_{event['name']}"):
+                    with st.spinner(ai_desc_loading):
+                        prompt = (
+                            f"Describe in detail the following Tunisian event: {event['name']}. Include its history, cultural significance, main activities, and typical atmosphere. "
+                            "Keep it to 5-6 sentences."
+                        )
+                        description = ai.ask(prompt)
                         st.success(description)
-                
+
                 st.markdown("---")
 
-# Statistiques
-st.sidebar.markdown("---")
-st.sidebar.markdown("**📊 Statistiques**")
-st.sidebar.markdown(f"**Total :** {len(EVENEMENTS)} événements")
-st.sidebar.markdown(f"**Affichés :** {len(filtered)} événements")
+# Sidebar statistics
+st.sidebar.markdown('---')
+st.sidebar.markdown(f"**📊 {stats_label}**")
+st.sidebar.markdown(f"**{total_label} :** {len(FESTIVALS)} {events_label}")
+st.sidebar.markdown(f"**{shown_label} :** {len(filtered)} {events_label}")
 
-# Recommandation IA
-if st.sidebar.button("🎯 Festival à ne pas manquer"):
-    with st.spinner("Génération de recommandation..."):
-        recommendation = ai.ask("Quel est le festival ou événement culturel le plus important et incontournable en Tunisie ? Donne-moi une recommandation avec les raisons de sa visite. Fais-le en 3 phrases maximum.")
-        st.sidebar.success(recommendation) 
+# Sidebar recommendation
+if st.sidebar.button(f"🎯 {recommend_label}"):
+    with st.sidebar.spinner(ai_recommend_loading):
+        names_list = ', '.join([e['name'] for e in FESTIVALS])
+        prompt = (
+            f"Which of these Tunisian festivals/events is the most important and unmissable: {names_list}? "
+            "Provide a short recommendation with reasons in 3 sentences."
+        )
+        recommendation = ai.ask(prompt)
+        st.sidebar.success(recommendation)
