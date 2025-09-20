@@ -232,6 +232,3 @@ else:
 
 st.info(TEXTS.get('dest_dynamic', {}).get(lang, 'Dynamic display of more destinations coming soon…'))
 
-if st.button(TEXTS.get('ai_summary', {}).get(lang, 'Generate AI Summary of Destinations')):
-    ai = AIAgent()
-    st.write(ai.ask("Give me a summary of the best tourist destinations in Tunisia."))
