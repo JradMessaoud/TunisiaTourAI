@@ -648,7 +648,7 @@ cta_text = get_text('cta', lang)
 st.markdown(f"<div class=\"section-title\">{cta_title}</div>", unsafe_allow_html=True)
 st.markdown(f"""
 <div style="text-align:center;">
-    <a href="/ChatWithIA" target="_self" style="
+    <a href="/ChatwithIA" target="_self" style="
         display: inline-block;
         background: linear-gradient(90deg, #E70013 0%, #B3000F 100%);
         color: #fff;
