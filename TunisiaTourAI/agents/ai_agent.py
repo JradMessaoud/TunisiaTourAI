@@ -15,7 +15,7 @@ class AIAgent:
         if self.api_key:
             st.sidebar.success("🤖 Gemini AI: ✅ Configured")
             genai.configure(api_key=self.api_key)
-            self.model = genai.GenerativeModel('gemini-1.5-flash')
+            self.model = genai.GenerativeModel('gemini-2.5-flash')
             self.is_available = True
         else:
             st.sidebar.warning("🤖 Gemini AI: ❌ Not configured")
